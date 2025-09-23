@@ -9,7 +9,7 @@
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '1.0.1' );
+	define( '_S_VERSION', '1.0.2' );
 }
 
 /**
@@ -140,6 +140,37 @@ add_action( 'widgets_init', 'project_london_widgets_init' );
 function project_london_scripts() {
 	wp_enqueue_style( 'project-london-style', get_stylesheet_uri(), array(), _S_VERSION );
 	wp_style_add_data( 'project-london-style', 'rtl', 'replace' );
+
+	wp_enqueue_style( 
+        'project-london-custom', 
+        get_template_directory_uri() . '/assets/custom.css', 
+        array('project-london-style'), 
+        _S_VERSION 
+    );
+
+	 // swiper css (CDN)
+    wp_enqueue_style(
+        'swiper-css',
+        'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css',
+        array(),
+        '11.0.0'
+    );
+
+    wp_enqueue_script(
+        'swiper-js',
+        'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js',
+        array(),
+        '11.0.0',
+        true
+    );
+
+    wp_enqueue_script(
+        'project-london-swiper-init',
+        get_template_directory_uri() . '/assets/js/swiper-init.js',
+        array('swiper-js'),
+        _S_VERSION,
+        true
+    );
 
 	wp_enqueue_script( 'project-london-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
 
