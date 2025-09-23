@@ -12,6 +12,7 @@
     }
 
     .quote-button {
+        margin-bottom: 1px;
         margin-top: 32px;
         margin-right: auto;
         border: 1px solid rgba(113, 113, 113, 0.25);

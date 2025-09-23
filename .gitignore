@@ -1,0 +1,26 @@
+# ОС и IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+
+# Node / build
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Assembly/Cache
+/dist/
+.cache/
+*.map
+
+# Composer
+/vendor/
+composer.lock
+
+# Other
+*.env
+*.local
