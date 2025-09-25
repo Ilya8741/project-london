@@ -397,7 +397,7 @@ html {
   width: 100vw;
   height: calc(100vh - 100px);
   background: #2b2b2b;
-  transition: opacity 0.2s ease;
+  transition: all 0.3s ease;
   z-index: 9;
   overflow-y: scroll;
 }

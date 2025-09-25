@@ -7,7 +7,7 @@
     <div class="grid-section-wrapper">
         <div class="grid-section-wrapper-top">
             <!-- Item 1 -->
-            <div class="grid-section-item grid-section-item-1">
+            <div class="grid-section-item grid-section-item-1" data-aos="fade-right">
                 <a href="<?php the_sub_field('item1_link'); ?>" class="grid-section-link">
                     <div class="grid-section-image-wrapper">
                         <?php $image1 = get_sub_field('item1_image'); ?>
@@ -27,7 +27,7 @@
             </div>
 
             <!-- Item 2 -->
-            <div class="grid-section-item grid-section-item-2">
+            <div class="grid-section-item grid-section-item-2" data-aos="fade-left">
                 <a href="<?php the_sub_field('item2_link'); ?>" class="grid-section-link">
                     <div class="grid-section-image-wrapper">
                             <?php $image2 = get_sub_field('item2_image'); ?>
@@ -49,7 +49,7 @@
         </div>
 
         <!-- Item 3 -->
-        <div class="grid-section-item grid-section-item-3">
+        <div class="grid-section-item grid-section-item-3" data-aos="fade-up">
             <a href="<?php the_sub_field('item3_link'); ?>" class="grid-section-link">
                 <div class="grid-section-image-wrapper">
 <?php $image3 = get_sub_field('item3_image'); ?>

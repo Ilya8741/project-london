@@ -1,4 +1,4 @@
-<div class="quote-section">
+<div class="quote-section" data-aos="fade-right">
     <div class="quote-wrapper main-container">
         <div class="quote-title">
             <?php the_sub_field('quote_title'); ?>

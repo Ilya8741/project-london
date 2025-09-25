@@ -1,4 +1,4 @@
-<div class="instafeed">
+<div class="instafeed" data-aos="fade-up" data-aos-offset="160">
     <div class="instafeed-header">
         <h2 class="instafeed-title">
             <?php the_sub_field('instafeed_title'); ?>

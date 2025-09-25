@@ -9,7 +9,7 @@
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '1.1.5' );
+	define( '_S_VERSION', '1.1.6' );
 }
 
 /**
@@ -138,6 +138,8 @@ add_action( 'widgets_init', 'project_london_widgets_init' );
  * Enqueue scripts and styles.
  */
 function project_london_scripts() {
+
+  // Шрифты
   wp_enqueue_style(
     'theme-fonts',
     get_stylesheet_directory_uri() . '/assets/css/fonts.css',
@@ -145,13 +147,22 @@ function project_london_scripts() {
     filemtime(get_stylesheet_directory() . '/assets/css/fonts.css')
   );
 
+  // Базовые стили темы
   wp_enqueue_style('project-london-style', get_stylesheet_uri(), [], _S_VERSION);
   wp_style_add_data('project-london-style', 'rtl', 'replace');
+
+  // AOS (Animate On Scroll) — CSS
+  wp_enqueue_style(
+    'aos',
+    'https://unpkg.com/aos@2.3.4/dist/aos.css',
+    [],
+    '2.3.4'
+  );
 
   wp_enqueue_style(
     'project-london-custom',
     get_template_directory_uri() . '/assets/css/custom.css',
-    ['project-london-style', 'theme-fonts'],
+    ['project-london-style', 'theme-fonts', 'aos'],
     _S_VERSION
   );
 
@@ -192,11 +203,31 @@ function project_london_scripts() {
     true
   );
 
+  wp_enqueue_script(
+    'aos',
+    'https://unpkg.com/aos@2.3.4/dist/aos.js',
+    [],
+    '2.3.4',
+    true
+  );
+
+  wp_add_inline_script(
+    'aos',
+    'document.addEventListener("DOMContentLoaded",function(){AOS.init({duration:500, once:true, offset:200});});'
+  );
+
+  // (опционально) пометить AOS как defer
+  if (function_exists('wp_script_add_data')) {
+    wp_script_add_data('aos', 'defer', true);
+  }
+
+  // Комменты (как было)
   if ( is_singular() && comments_open() && get_option('thread_comments') ) {
     wp_enqueue_script('comment-reply');
   }
 }
 add_action('wp_enqueue_scripts', 'project_london_scripts');
+
 
 
 /**

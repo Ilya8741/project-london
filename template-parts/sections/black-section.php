@@ -1,4 +1,4 @@
-<div class="black-section">
+<div class="black-section" data-aos="fade-up">
     <div class="black-section-wrapper">
         <div class="black-section-content">
             <h3 class="black-title">
