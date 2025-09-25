@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The header for our theme
  *
@@ -12,8 +13,9 @@
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
+
 <head>
-	<meta charset="<?php bloginfo( 'charset' ); ?>">
+	<meta charset="<?php bloginfo('charset'); ?>">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="profile" href="https://gmpg.org/xfn/11">
 
@@ -21,39 +23,234 @@
 </head>
 
 <body <?php body_class(); ?>>
-<?php wp_body_open(); ?>
-<div id="page" class="site">
-	<a class="skip-link screen-reader-text" href="#primary"><?php esc_html_e( 'Skip to content', 'project-london' ); ?></a>
+	<?php wp_body_open(); ?>
+	<?php
+$pl_enabled  = get_field('preloader_enable',  'header_options');
+$pl_duration = (int) get_field('preloader_duration', 'header_options') ?: 3000;
+$pl_text     = get_field('preloader_text',    'header_options') ?: 'Architecture · Interior design · Project management';
+$pl_logo     = get_field('preloader_logo',    'header_options');
+$dark_logo   = get_field('dark_logo',         'header_options');
 
-	<header id="masthead" class="site-header">
-		<div class="site-branding">
-			<?php
-			the_custom_logo();
-			if ( is_front_page() && is_home() ) :
-				?>
-				<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-				<?php
-			else :
-				?>
-				<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
-				<?php
-			endif;
-			$project_london_description = get_bloginfo( 'description', 'display' );
-			if ( $project_london_description || is_customize_preview() ) :
-				?>
-				<p class="site-description"><?php echo $project_london_description; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
-			<?php endif; ?>
-		</div><!-- .site-branding -->
+if ( is_front_page() && $pl_enabled ): ?>
+  <div id="pl-overlay" class="pl-overlay" data-duration="<?php echo esc_attr($pl_duration); ?>">
+    <div class="pl-center">
+      <div class="pl-logo-wrap">
+        <?php
+          $logo = $pl_logo ?: $dark_logo;
+          if ($logo) {
+            echo wp_get_attachment_image($logo['ID'], 'full', false, ['class' => 'pl-logo', 'alt' => esc_attr($logo['alt'] ?? '')]);
+          }
+        ?>
+        <svg class="pl-ring" viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="pl-ring__bg" cx="60" cy="60" r="54" />
+          <circle class="pl-ring__fg" cx="60" cy="60" r="54" />
+        </svg>
+      </div>
+      <p class="pl-text"><?php echo esc_html($pl_text); ?></p>
+    </div>
+  </div>
+<script>
+(function () {
+  var d  = document;
+  var ov = d.getElementById('pl-overlay');
+  if (!ov) return;
 
-		<nav id="site-navigation" class="main-navigation">
-			<button class="menu-toggle" aria-controls="primary-menu" aria-expanded="false"><?php esc_html_e( 'Primary Menu', 'project-london' ); ?></button>
-			<?php
-			wp_nav_menu(
-				array(
-					'theme_location' => 'menu-1',
-					'menu_id'        => 'primary-menu',
-				)
-			);
-			?>
-		</nav><!-- #site-navigation -->
-	</header><!-- #masthead -->
+  var dur = parseInt(ov.getAttribute('data-duration') || '3000', 10);
+  ov.style.setProperty('--pl-dur', dur + 'ms');
+
+  d.documentElement.classList.add('pl-lock');
+  d.body.classList.add('pl-lock');
+
+  function getTransitionMs(el) {
+    try {
+      var cs = getComputedStyle(el);
+      var td = (cs.transitionDuration || '0s').split(',')[0].trim();
+      return td.endsWith('ms') ? parseFloat(td) : parseFloat(td) * 1000;
+    } catch (e) {
+      return 300;
+    }
+  }
+
+  setTimeout(function () {
+    var fadeMs = getTransitionMs(ov) || 300;
+    ov.classList.add('is-done');
+
+    setTimeout(function () {
+      d.documentElement.classList.remove('pl-lock');
+      d.body.classList.remove('pl-lock');
+      ov.remove();
+    }, fadeMs + 50); 
+  }, dur);
+})();
+</script>
+
+<?php endif; ?>
+
+	<div id="page" class="site">
+
+		<header id="masthead" class="site-header">
+			<div class="site-header-wrapper">
+				<div class="site-header-wrapper-main">
+
+				<?php if ($image = get_field('logo', 'header_options')) : ?>
+					<a href="/">
+					<?php
+					echo wp_get_attachment_image(
+						$image['ID'],
+						'full',
+						false,
+						[
+							'class' => 'header-main-logo',
+							'alt'   => esc_attr($image['alt'] ?? '')
+						]
+					);
+					?>
+					</a>
+				<?php endif; ?>
+				<?php if ($image1 = get_field('dark_logo', 'header_options')) : ?>
+					<a href="/">
+					<?php
+					echo wp_get_attachment_image(
+						$image1['ID'],
+						'full',
+						false,
+						[
+							'class' => 'header-dark-logo',
+							'alt'   => esc_attr($image1['alt'] ?? ''),
+						]
+					);
+					?>
+					</a>
+				<?php endif; ?>
+				<button class="header-open">
+					<div class="header-open-line">
+					</div>
+					<div class="header-open-line">
+					</div>
+				</button>
+				</div>
+			</div>
+			<div class="header-burger-menu">
+				<div class="header-burger-menu-wrapper">
+
+
+					<?php
+					$main_image = get_field('mega_menu_image', 'header_options'); // Image
+					?>
+
+					<div class="hb-grid">
+						<div class="hb-media">
+							<?php if ($main_image): ?>
+								<img
+									id="hb-img-0"
+									class="hb-media__img is-active"
+									src="<?php echo esc_url($main_image['url']); ?>"
+									alt="<?php echo esc_attr($main_image['alt'] ?? ''); ?>"
+									loading="lazy" />
+							<?php endif; ?>
+
+							<?php
+							if (have_rows('header_menu', 'header_options')):
+								$i = 1;
+								while (have_rows('header_menu', 'header_options')): the_row();
+									$img = get_sub_field('image'); // Image
+									if ($img): ?>
+										<img
+											id="hb-img-<?php echo esc_attr($i); ?>"
+											class="hb-media__img"
+											src="<?php echo esc_url($img['url']); ?>"
+											alt="<?php echo esc_attr($img['alt'] ?? ''); ?>"
+											loading="lazy" />
+							<?php
+										$i++;
+									endif;
+								endwhile;
+								reset_rows();
+							endif;
+							?>
+						</div>
+
+						<div class="hb-side">
+							<div class="hb-menu-with-img">
+								<?php if (have_rows('header_menu', 'header_options')): ?>
+									<nav class="hb-menu" aria-label="Header menu">
+										<div class="hb-menu__list">
+											<?php
+											$i = 1;
+											while (have_rows('header_menu', 'header_options')): the_row();
+												$link = get_sub_field('link'); // Link
+												$img_id_attr = 'hb-img-' . $i;
+												$has_image   = get_sub_field('image');
+												if (!$has_image) {
+													$img_id_attr = 'hb-img-0';
+												}
+
+												if ($link && !empty($link['url'])): ?>
+														<a
+															class="hb-menu__link"
+															href="<?php echo esc_url($link['url']); ?>"
+															target="<?php echo esc_attr($link['target'] ?: '_self'); ?>"
+															data-img-id="<?php echo esc_attr($img_id_attr); ?>">
+															<?php echo esc_html($link['title'] ?: ''); ?>
+															<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+																<path d="M1 1H17.4571V17" stroke="white" stroke-width="1.10345" stroke-linecap="round" stroke-linejoin="round" />
+																<path d="M1 17L17.4571 1" stroke="white" stroke-width="1.10345" stroke-linecap="round" stroke-linejoin="round" />
+															</svg>
+														</a>
+											<?php endif;
+												$i++;
+											endwhile; ?>
+										</div>
+									</nav>
+								<?php endif; ?>
+								<?php if ($main_image): ?>
+									<img
+										class="hb-media__imgage-mobile"
+										src="<?php echo esc_url($main_image['url']); ?>"
+										alt="<?php echo esc_attr($main_image['alt'] ?? ''); ?>"
+										loading="lazy" />
+								<?php endif; ?>
+							</div>
+							<div class="info-with-button">
+
+							
+							<?php if (have_rows('header_info', 'header_options')): ?>
+								<div class="hb-info">
+									<ul class="hb-info__list">
+										<?php while (have_rows('header_info', 'header_options')): the_row();
+											$info_link = get_sub_field('info_link'); // Link
+											if ($info_link && !empty($info_link['url'])): ?>
+												<li class="hb-info__item">
+													<a
+														class="hb-info__link"
+														href="<?php echo esc_url($info_link['url']); ?>"
+														target="<?php echo esc_attr($info_link['target'] ?: '_self'); ?>">
+														<?php echo esc_html($info_link['title'] ?: ''); ?>
+													</a>
+												</li>
+										<?php endif;
+										endwhile; ?>
+									</ul>
+								</div>
+							<?php endif; ?>
+
+							<?php
+							$btn_url  = get_field('word_button_url',  'header_options');
+							$btn_text = get_field('work_button_text', 'header_options');
+							if ($btn_text): ?>
+								<a class="main-button header-work-button" href="<?php echo esc_url($btn_url); ?>">
+									<span><?php echo esc_html($btn_text); ?></span>
+									<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+										<path d="M1 1H13V13" stroke="#2B2B2B" stroke-width="0.5" stroke-linejoin="round" />
+										<path d="M1 13L13 1" stroke="#2B2B2B" stroke-width="0.5" stroke-linejoin="round" />
+									</svg>
+								</a>
+							<?php endif; ?>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+
+		</header>

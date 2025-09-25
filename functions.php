@@ -9,7 +9,7 @@
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '1.0.2' );
+	define( '_S_VERSION', '1.1.4' );
 }
 
 /**
@@ -138,47 +138,66 @@ add_action( 'widgets_init', 'project_london_widgets_init' );
  * Enqueue scripts and styles.
  */
 function project_london_scripts() {
-	wp_enqueue_style( 'project-london-style', get_stylesheet_uri(), array(), _S_VERSION );
-	wp_style_add_data( 'project-london-style', 'rtl', 'replace' );
+  wp_enqueue_style(
+    'theme-fonts',
+    get_stylesheet_directory_uri() . '/assets/css/fonts.css',
+    [],
+    filemtime(get_stylesheet_directory() . '/assets/css/fonts.css')
+  );
 
-	wp_enqueue_style( 
-        'project-london-custom', 
-        get_template_directory_uri() . '/assets/custom.css', 
-        array('project-london-style'), 
-        _S_VERSION 
-    );
+  wp_enqueue_style('project-london-style', get_stylesheet_uri(), [], _S_VERSION);
+  wp_style_add_data('project-london-style', 'rtl', 'replace');
 
-	 // swiper css (CDN)
-    wp_enqueue_style(
-        'swiper-css',
-        'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css',
-        array(),
-        '11.0.0'
-    );
+  wp_enqueue_style(
+    'project-london-custom',
+    get_template_directory_uri() . '/assets/css/custom.css',
+    ['project-london-style', 'theme-fonts'],
+    _S_VERSION
+  );
 
-    wp_enqueue_script(
-        'swiper-js',
-        'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js',
-        array(),
-        '11.0.0',
-        true
-    );
+  wp_enqueue_script(
+    'project-london-burger',
+    get_template_directory_uri() . '/assets/js/header-menu.js',
+    [],
+    _S_VERSION,
+    true
+  );
 
-    wp_enqueue_script(
-        'project-london-swiper-init',
-        get_template_directory_uri() . '/assets/js/swiper-init.js',
-        array('swiper-js'),
-        _S_VERSION,
-        true
-    );
+  wp_enqueue_style(
+    'swiper-css',
+    'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css',
+    [],
+    '11.0.0'
+  );
+  wp_enqueue_script(
+    'swiper-js',
+    'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js',
+    [],
+    '11.0.0',
+    true
+  );
+  wp_enqueue_script(
+    'project-london-swiper-init',
+    get_template_directory_uri() . '/assets/js/swiper-init.js',
+    ['swiper-js'],
+    _S_VERSION,
+    true
+  );
 
-	wp_enqueue_script( 'project-london-navigation', get_template_directory_uri() . '/js/navigation.js', array(), _S_VERSION, true );
+  wp_enqueue_script(
+    'project-london-navigation',
+    get_template_directory_uri() . '/js/navigation.js',
+    [],
+    _S_VERSION,
+    true
+  );
 
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-		wp_enqueue_script( 'comment-reply' );
-	}
+  if ( is_singular() && comments_open() && get_option('thread_comments') ) {
+    wp_enqueue_script('comment-reply');
+  }
 }
-add_action( 'wp_enqueue_scripts', 'project_london_scripts' );
+add_action('wp_enqueue_scripts', 'project_london_scripts');
+
 
 /**
  * Implement the Custom Header feature.
@@ -216,3 +235,45 @@ add_filter('acf/settings/load_json', function ($paths) {
     $paths[] = get_stylesheet_directory() . '/acf-json';
     return $paths;
 });
+
+if ( function_exists('acf_add_options_page') ) {
+  acf_add_options_page([
+    'page_title' => 'Theme Settings',
+    'menu_title' => 'Theme Settings',
+    'menu_slug'  => 'theme-settings',
+    'redirect'   => false,
+  ]);
+
+  // HEADER
+  acf_add_options_sub_page([
+    'page_title' => 'Header',
+    'menu_title' => 'Header',
+    'parent_slug'=> 'theme-settings',
+    'post_id'    => 'header_options', 
+  ]);
+
+  // FOOTER
+  acf_add_options_sub_page([
+    'page_title' => 'Footer',
+    'menu_title' => 'Footer',
+    'parent_slug'=> 'theme-settings',
+    'post_id'    => 'footer_options',
+  ]);
+}
+
+add_filter('upload_mimes', function ($mimes) {
+    if ( current_user_can('administrator') ) {
+        $mimes['svg'] = 'image/svg+xml';
+        $mimes['svgz'] = 'image/svg+xml';
+    }
+    return $mimes;
+});
+add_filter('wp_check_filetype_and_ext', function ($data, $file, $filename, $mimes, $real_mime = null) {
+    $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+    if ( in_array($ext, ['svg','svgz'], true) ) {
+        $data['ext'] = 'svg';
+        $data['type'] = 'image/svg+xml';
+        $data['proper_filename'] = $filename;
+    }
+    return $data;
+}, 10, 5);
