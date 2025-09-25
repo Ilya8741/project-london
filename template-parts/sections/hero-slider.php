@@ -1,4 +1,4 @@
-<div class="hero-slider" data-aos="fade-up" data-aos-offset="50" data-aos-delay="200">
+<div class="hero-slider" data-aos="fade-up" data-aos-offset="200" data-aos-delay="200">
     <div class="hero-slider-wrapper">
         <div class="hero-slider-header">
             <div class="hero-slider-header-main">
