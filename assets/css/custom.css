@@ -989,7 +989,7 @@ body.pl-lock {
   margin: 0 auto;
 }
 
-.hero-slider-swiper {
+.hero-slider-wrapper .hero-slider-swiper {
   padding: 0 20px;
 }
 
@@ -1085,12 +1085,19 @@ body.pl-lock {
 }
 
 @media (max-width: 992px) {
+
   .hero-slider-swiper {
     width: calc(100% - 24px);
     padding: 0;
     margin-left: auto;
     margin-right: 0;
     padding: 0;
+  }
+
+    .hero-slider-wrapper .hero-slider-swiper{
+    padding: 0;
+    margin-left: auto;
+    margin-right: 0;
   }
 
   .hero-slider-header {
