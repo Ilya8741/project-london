@@ -389,7 +389,7 @@ html {
   position: relative;
 }
 
-.header-burger-menu {
+/* .header-burger-menu {
   opacity: 0;
   position: fixed;
   top: -100%;
@@ -401,14 +401,53 @@ html {
   z-index: 9;
   overflow-y: scroll;
 }
+.header-burger-menu.active {
+  opacity: 1;
+  top: 100px;
+} */
+
+.site-header{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.header-burger-menu {
+  position: fixed;
+  top: 100px;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 100px);
+  background: #2b2b2b;
+  z-index: 9;
+  overflow-y: auto;
+
+  transform: translateY(-105%);  
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+
+  transition:
+    transform 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity   300ms ease-out;                     
+}
+
+.header-burger-menu.active {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-burger-menu {
+    transition: none;
+  }
+}
 
 #wpadminbar {
   display: none !important;
 }
-.header-burger-menu.active {
-  opacity: 1;
-  top: 100px;
-}
+
 
 .header-burger-menu-wrapper {
   padding: 85px 20px;
@@ -478,7 +517,7 @@ html {
 
 .hb-info__item {
   padding-bottom: 16px;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .hb-info__link {
@@ -516,6 +555,7 @@ html {
   position: relative;
   aspect-ratio: 572/734;
   overflow: hidden;
+  max-width: 500px;
 }
 .hb-media__img {
   position: absolute;
@@ -658,7 +698,10 @@ body.pl-lock {
 }
 
 /* black-section styles */
-
+.black-section-image-wrapper{
+  display: flex;
+  height: 100vh;
+}
 .black-section-wrapper {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -676,6 +719,7 @@ body.pl-lock {
   height: 100%;
   background: #2b2b2b;
   gap: 20px;
+  height: 100vh;
 }
 
 .main-button.black-section-button {
@@ -733,9 +777,15 @@ body.pl-lock {
 }
 
 @media (max-width: 992px) {
+  .black-section-image-wrapper{
+  display: flex;
+  height: initial;
+}
   .black-section-wrapper {
     grid-template-columns: repeat(1, 1fr);
   }
+
+
 
   .black-title {
     font-size: 28px;
@@ -744,6 +794,7 @@ body.pl-lock {
 
   .black-section-content {
     gap: 64px;
+    height: initial;
     padding: 80px 24px 48px 24px;
   }
 
@@ -766,12 +817,15 @@ body.pl-lock {
 }
 
 .grid-image-bg {
-  height: 410px;
+  position: sticky;          /* ключ! */
+  top: 100px;                /* отступ от верха = высота хедера */
+  height: 410px;             /* небольшая, как просил */
   width: auto;
   object-fit: contain;
-  position: absolute;
-  right: 0;
-  top: 0;
+  display: block;
+  margin-left: auto;         /* прижать вправо */
+  z-index: 0;                /* под контентом */
+  pointer-events: none; 
 }
 
 .grid-section-wrapper {
@@ -779,6 +833,9 @@ body.pl-lock {
   max-width: 1440px;
   margin: 0 auto;
   padding: 0 20px;
+  position: relative;
+  z-index: 1;
+  margin-top: -410px;
 }
 
 .grid-section-item-3 {
@@ -790,6 +847,7 @@ body.pl-lock {
   position: absolute;
   right: 0;
   bottom: 0;
+  z-index: 2;
 }
 
 .grid-section-image-wrapper {
@@ -818,7 +876,6 @@ body.pl-lock {
   align-items: center;
   background: #2b2b2b;
   transition: all 0.3s ease;
-  border: 1px solid #2b2b2b;
 }
 
 .grid-section-icon svg {
@@ -827,9 +884,6 @@ body.pl-lock {
   height: 16px;
 }
 
-.grid-section-icon svg path {
-  transition: all 0.3s ease;
-}
 
 .grid-section-item-1 .grid-section-image-wrapper {
   max-width: 572px;
@@ -877,18 +931,59 @@ body.pl-lock {
 .grid-section-link {
   text-decoration: none;
 }
-
+.grid-section-link img {
+  transition: all .3s ease;
+}
 .grid-section-link:hover .grid-section-icon {
-  background: #fff;
+  background:  transparent;
+}
+.grid-section-link:hover img {
+  scale: 1.05;
 }
 
-.grid-section-link:hover .grid-section-icon svg path {
-  stroke: #2b2b2b;
+.grid-section-link:hover .grid-section-image-wrapper::after {
+  width: 100%;
+  height: 100%;
 }
+
+/* .grid-section-link:hover .grid-section-icon svg path {
+  stroke: #2b2b2b;
+} */
+
+.grid-section-item .grid-section-image-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+
+.grid-section-item .grid-section-image-wrapper::after{
+  content: "";
+  background: rgba(43, 43, 43, 0.5);
+  height: 0;
+  width: 0;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+    transition:
+    width 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    height 700ms cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: width, height;
+}
+
+.grid-section-item .grid-section-image-wrapper img {
+  transition: all .3s ease;
+}
+
+.duo-section {
+  position: relative;
+}
+
 
 @media (max-width: 992px) {
   .grid-section {
     padding-top: 80px;
+  }
+  .grid-section-wrapper{
+    margin-top: 0;
   }
   .grid-section-wrapper-top {
     display: grid;
@@ -1022,7 +1117,33 @@ body.pl-lock {
 
 .hero-slider-item {
   display: flex;
+  overflow: hidden;
   position: relative;
+}
+
+.hero-slider-item::after{
+  content: "";
+  background: rgba(43, 43, 43, 0.5);
+  height: 0;
+  width: 0;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  content: "";
+  background: rgba(43, 43, 43, 0.5);
+  height: 0;
+  width: 0;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+    transition:
+    width 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    height 700ms cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: width, height;
+}
+
+.hero-slider-item img {
+  transition: all .3s ease;
 }
 
 .hero-slider-icon {
@@ -1036,18 +1157,14 @@ body.pl-lock {
   align-items: center;
   justify-content: center;
   background: #2b2b2b;
-  border: 1px solid #2b2b2b;
   transition: all 0.3s ease;
+  z-index: 2;
 }
 
 .hero-slider-icon svg {
   min-width: 16px;
   width: 16px;
   height: 16px;
-}
-
-.hero-slider-icon svg path {
-  transition: all 0.3s ease;
 }
 
 .hero-slider-swiper .swiper-slide img {
@@ -1077,11 +1194,16 @@ body.pl-lock {
 }
 
 .hero-slider-swiper .swiper-slide:hover .hero-slider-icon {
-  background: #fff;
+  background: transparent;
 }
 
-.hero-slider-swiper .swiper-slide:hover .hero-slider-icon svg path {
-  stroke: #2b2b2b;
+.hero-slider-swiper .swiper-slide:hover img {
+  scale: 1.05;
+}
+
+.hero-slider-swiper .swiper-slide:hover .hero-slider-item::after{
+  width: 100%;
+  height: 100%;
 }
 
 @media (max-width: 992px) {

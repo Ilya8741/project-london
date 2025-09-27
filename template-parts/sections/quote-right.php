@@ -16,3 +16,4 @@
         </span>
     </div>
 </div>
+<?php if (get_sub_field('duo-section')): ?></div><?php endif; ?>

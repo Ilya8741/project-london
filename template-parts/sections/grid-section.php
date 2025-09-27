@@ -1,13 +1,35 @@
-<div class="grid-section">
+<?php if (get_sub_field('duo-section')): ?>
+<style>
+    .duo-section{
+        padding-top: 200px;
+    }
+    .grid-section{
+        padding-top: 0;
+    }
+   @media (max-width: 992px) {
+        .duo-section{
+        padding-top: 80px;
+    }
+   }
+</style>
+    <?php endif; ?>
+
+<?php if (get_sub_field('duo-section')): ?><div class="duo-section"><?php endif; ?>
+    <?php if (get_sub_field('duo-section')): ?>
     <?php
     $grid_image = get_sub_field('grid_image_bg');
     if ($grid_image): ?>
         <img src="<?php echo esc_url($grid_image['url']); ?>" class="grid-image-bg" alt="<?php echo esc_attr($grid_image['alt']); ?>">
     <?php endif; ?>
+    <?php endif; ?>
+<div class="grid-section">
+   
     <div class="grid-section-wrapper">
         <div class="grid-section-wrapper-top">
             <!-- Item 1 -->
-            <div class="grid-section-item grid-section-item-1" data-aos="fade-right">
+            <div class="grid-section-item grid-section-item-1" data-aos="fade-right" data-aos-duration="900"
+                data-aos-delay="100"
+                data-aos-easing="ease-out">
                 <a href="<?php the_sub_field('item1_link'); ?>" class="grid-section-link">
                     <div class="grid-section-image-wrapper">
                         <?php $image1 = get_sub_field('item1_image'); ?>
@@ -27,46 +49,51 @@
             </div>
 
             <!-- Item 2 -->
-            <div class="grid-section-item grid-section-item-2" data-aos="fade-left">
+            <div class="grid-section-item grid-section-item-2" data-aos="fade-left" data-aos-duration="900"
+                data-aos-delay="100"
+                data-aos-easing="ease-out">
                 <a href="<?php the_sub_field('item2_link'); ?>" class="grid-section-link">
                     <div class="grid-section-image-wrapper">
-                            <?php $image2 = get_sub_field('item2_image'); ?>
-                    <?php if ($image2): ?>
-                        <img src="<?php echo esc_url($image2['url']); ?>" alt="<?php echo esc_attr($image2['alt']); ?>">
-                    <?php endif; ?>
-  <span class="grid-section-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                        <?php $image2 = get_sub_field('item2_image'); ?>
+                        <?php if ($image2): ?>
+                            <img src="<?php echo esc_url($image2['url']); ?>" alt="<?php echo esc_attr($image2['alt']); ?>">
+                        <?php endif; ?>
+                        <span class="grid-section-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
                                 <path d="M0.771484 1H17.2286V17" stroke="white" stroke-width="1.10345" stroke-linecap="round" stroke-linejoin="round" />
                                 <path d="M0.771484 17L17.2286 1" stroke="white" stroke-width="1.10345" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
-                    </span>
+                        </span>
                     </div>
-                
+
                     <div class="grid-section-text"><?php the_sub_field('item2_text'); ?></div>
-                  
+
                 </a>
             </div>
         </div>
 
         <!-- Item 3 -->
-        <div class="grid-section-item grid-section-item-3" data-aos="fade-up">
+        <div class="grid-section-item grid-section-item-3" data-aos="fade-up" data-aos-duration="900"
+            data-aos-delay="100"
+            data-aos-easing="ease-out">
             <a href="<?php the_sub_field('item3_link'); ?>" class="grid-section-link">
                 <div class="grid-section-image-wrapper">
-<?php $image3 = get_sub_field('item3_image'); ?>
-                <?php if ($image3): ?>
-                    <img src="<?php echo esc_url($image3['url']); ?>" alt="<?php echo esc_attr($image3['alt']); ?>">
-                <?php endif; ?>
+                    <?php $image3 = get_sub_field('item3_image'); ?>
+                    <?php if ($image3): ?>
+                        <img src="<?php echo esc_url($image3['url']); ?>" alt="<?php echo esc_attr($image3['alt']); ?>">
+                    <?php endif; ?>
                     <span class="grid-section-icon">
-                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
-                                <path d="M0.771484 1H17.2286V17" stroke="white" stroke-width="1.10345" stroke-linecap="round" stroke-linejoin="round" />
-                                <path d="M0.771484 17L17.2286 1" stroke="white" stroke-width="1.10345" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M0.771484 1H17.2286V17" stroke="white" stroke-width="1.10345" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M0.771484 17L17.2286 1" stroke="white" stroke-width="1.10345" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
                 </div>
-                
+
                 <div class="grid-section-text"><?php the_sub_field('item3_text'); ?></div>
-            
+
             </a>
         </div>
     </div>
 </div>
+
