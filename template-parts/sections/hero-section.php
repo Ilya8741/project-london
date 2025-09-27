@@ -1,11 +1,11 @@
 <div class="hero-section">
     <div class="hero-section-wrapper">
         <div class="main-container">
-            <h1 class="hero-section-title" data-aos="fade-left">
+            <h1 class="hero-section-title">
                 <?php the_sub_field('hero_title'); ?>
             </h1>
         </div>
-        <div class="hero-section-image-wrapper" data-aos="fade-up">
+        <div class="hero-section-image-wrapper">
             <?php
             $hero_video = get_sub_field('hero_video');
             if ($hero_video): ?>

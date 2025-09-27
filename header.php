@@ -49,11 +49,27 @@ if ( is_front_page() && $pl_enabled ): ?>
       <p class="pl-text"><?php echo esc_html($pl_text); ?></p>
     </div>
   </div>
+
+  <script>
+function ensureStartAtTop(onlyHome=true){
+  if(onlyHome && !document.body.classList.contains('home')) return;
+  try{ if('scrollRestoration' in history){ history.scrollRestoration='manual'; } }catch(e){}
+  window.scrollTo(0,0);
+  window.addEventListener('pageshow', function(e){ if(e.persisted) window.scrollTo(0,0); });
+  window.addEventListener('beforeunload', function(){ window.scrollTo(0,0); });
+}
+ensureStartAtTop(true);
+</script>
+
 <script>
 (function () {
   var d  = document;
   var ov = d.getElementById('pl-overlay');
   if (!ov) return;
+
+  if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+  window.scrollTo(0, 0);
+  window.addEventListener('pageshow', function(e) { if (e.persisted) window.scrollTo(0, 0); });
 
   var dur = parseInt(ov.getAttribute('data-duration') || '3000', 10);
   ov.style.setProperty('--pl-dur', dur + 'ms');
@@ -61,28 +77,81 @@ if ( is_front_page() && $pl_enabled ): ?>
   d.documentElement.classList.add('pl-lock');
   d.body.classList.add('pl-lock');
 
+  function setHeroVars() {
+    var section = d.querySelector('.hero-section');
+    var wrap    = d.querySelector('.hero-section-image-wrapper');
+    if (!section || !wrap) return;
+    var sectionTop = section.getBoundingClientRect().top + window.scrollY;
+    var wrapTop    = wrap.getBoundingClientRect().top + window.scrollY;
+    var shift      = Math.max(0, Math.round(wrapTop - sectionTop));
+    d.documentElement.style.setProperty('--hero-video-shift', shift + 'px');
+  }
+
+  setHeroVars();
+  window.addEventListener('resize', setHeroVars);
+
   function getTransitionMs(el) {
     try {
       var cs = getComputedStyle(el);
       var td = (cs.transitionDuration || '0s').split(',')[0].trim();
       return td.endsWith('ms') ? parseFloat(td) : parseFloat(td) * 1000;
-    } catch (e) {
-      return 300;
+    } catch (e) { return 300; }
+  }
+
+  function animateHeroVideoReturn() {
+    var wrap  = d.querySelector('.hero-section-image-wrapper');
+    var video = wrap ? wrap.querySelector('video') : null;
+    if (!wrap || !video) {
+      d.body.classList.remove('hero-video-top');
+      return;
     }
+
+    var startWrapH  = wrap.getBoundingClientRect().height;
+    var startVideoH = video.getBoundingClientRect().height;
+
+    d.body.classList.remove('hero-video-top');
+
+    var endWrapH = wrap.getBoundingClientRect().height;
+
+    wrap.style.height  = startWrapH + 'px';
+    video.style.height = startVideoH + 'px';
+    void wrap.offsetHeight;
+
+    wrap.style.height = endWrapH + 'px';
+
+    var onEnd = function(e){
+      if (e.propertyName === 'height') {
+        wrap.style.height = '';
+        video.style.height = '';
+        wrap.removeEventListener('transitionend', onEnd);
+      }
+    };
+    wrap.addEventListener('transitionend', onEnd);
   }
 
   setTimeout(function () {
     var fadeMs = getTransitionMs(ov) || 300;
+
+    d.body.classList.add('hero-reveal');
+
+    setHeroVars();
+    d.body.classList.add('hero-video-top');
+
+    setTimeout(animateHeroVideoReturn, 2000);
+
     ov.classList.add('is-done');
 
     setTimeout(function () {
       d.documentElement.classList.remove('pl-lock');
       d.body.classList.remove('pl-lock');
       ov.remove();
-    }, fadeMs + 50); 
+    }, fadeMs + 50);
+
   }, dur);
 })();
 </script>
+
+
 
 <?php endif; ?>
 
@@ -132,7 +201,6 @@ if ( is_front_page() && $pl_enabled ): ?>
 			</div>
 			<div class="header-burger-menu">
 				<div class="header-burger-menu-wrapper">
-
 
 					<?php
 					$main_image = get_field('mega_menu_image', 'header_options'); // Image
