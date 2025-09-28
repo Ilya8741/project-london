@@ -271,13 +271,13 @@ ensureStartAtTop(true);
 										</div>
 									</nav>
 								<?php endif; ?>
-								<?php if ($main_image): ?>
+								<!-- <?php if ($main_image): ?>
 									<img
 										class="hb-media__imgage-mobile"
 										src="<?php echo esc_url($main_image['url']); ?>"
 										alt="<?php echo esc_attr($main_image['alt'] ?? ''); ?>"
 										loading="lazy" />
-								<?php endif; ?>
+								<?php endif; ?> -->
 							</div>
 							<div class="info-with-button">
 
@@ -322,3 +322,41 @@ ensureStartAtTop(true);
 			</div>
 
 		</header>
+<script>
+(function () {
+  var header = document.querySelector('.site-header-wrapper-main');
+  if (!header) return;
+
+  var DARK_SELECTOR = '[data-theme="dark"], .bg-dark, .section--dark';
+
+  function isHeaderOverDarkByTop() {
+    var hb = header.getBoundingClientRect();
+    var sampleY = Math.max(0, Math.round(hb.top + 20)); 
+
+    var darks = document.querySelectorAll(DARK_SELECTOR);
+    for (var i = 0; i < darks.length; i++) {
+      var r = darks[i].getBoundingClientRect();
+      if (r.top <= sampleY && r.bottom >= sampleY) return true;
+    }
+    return false;
+  }
+
+  var ticking = false;
+  function update() {
+    ticking = false;
+    header.classList.toggle('on-dark', isHeaderOverDarkByTop());
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  document.addEventListener('DOMContentLoaded', update);
+  update();
+})();
+</script>

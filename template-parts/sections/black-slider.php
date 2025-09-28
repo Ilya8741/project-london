@@ -1,4 +1,4 @@
-<div class="black-slider">
+<div class="black-slider" data-theme="dark">
   <div class="black-slider-wrapper" data-aos="fade-right"  data-aos-offset="200" data-aos-delay="200"> 
     <div class="black-slider-swiper swiper">
       <div class="swiper-wrapper">

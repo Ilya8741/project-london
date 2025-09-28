@@ -7,7 +7,7 @@
 ?>
 
 
-<footer id="colophon" class="site-footer">
+<footer id="colophon" class="site-footer" data-theme="dark">
 	<div class="site-footer-wrapper">
 		<div class="site-footer-header">
 			<?php if ($title = get_field('header_title', 'footer_options')) : ?>

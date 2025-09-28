@@ -1,6 +1,6 @@
 
 
-<div class="black-quote" >
+<div class="black-quote" data-theme="dark">
     <div class="black-quote-wrapper">
         <div class="black-quote-top" data-aos="fade-right">
    <?php if (get_sub_field('quote_subtitle')): ?>

@@ -9,7 +9,7 @@
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '1.2.6' );
+	define( '_S_VERSION', '1.4.0' );
 }
 
 /**
@@ -139,7 +139,6 @@ add_action( 'widgets_init', 'project_london_widgets_init' );
  */
 function project_london_scripts() {
 
-  // Шрифты
   wp_enqueue_style(
     'theme-fonts',
     get_stylesheet_directory_uri() . '/assets/css/fonts.css',
@@ -147,11 +146,10 @@ function project_london_scripts() {
     filemtime(get_stylesheet_directory() . '/assets/css/fonts.css')
   );
 
-  // Базовые стили темы
   wp_enqueue_style('project-london-style', get_stylesheet_uri(), [], _S_VERSION);
   wp_style_add_data('project-london-style', 'rtl', 'replace');
 
-  // AOS (Animate On Scroll) — CSS
+  // AOS (CSS)
   wp_enqueue_style(
     'aos',
     'https://unpkg.com/aos@2.3.4/dist/aos.css',
@@ -166,6 +164,7 @@ function project_london_scripts() {
     _S_VERSION
   );
 
+  // Header menu
   wp_enqueue_script(
     'project-london-burger',
     get_template_directory_uri() . '/assets/js/header-menu.js',
@@ -174,6 +173,7 @@ function project_london_scripts() {
     true
   );
 
+  // Swiper
   wp_enqueue_style(
     'swiper-css',
     'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css',
@@ -195,6 +195,7 @@ function project_london_scripts() {
     true
   );
 
+  // Навигация
   wp_enqueue_script(
     'project-london-navigation',
     get_template_directory_uri() . '/js/navigation.js',
@@ -203,6 +204,7 @@ function project_london_scripts() {
     true
   );
 
+  // AOS (JS)
   wp_enqueue_script(
     'aos',
     'https://unpkg.com/aos@2.3.4/dist/aos.js',
@@ -210,24 +212,47 @@ function project_london_scripts() {
     '2.3.4',
     true
   );
-
   wp_add_inline_script(
     'aos',
-    'document.addEventListener("DOMContentLoaded",function(){AOS.init({duration:500, once:true, offset:200});});'
+    'document.addEventListener("DOMContentLoaded",function(){AOS.init({duration:500,once:true,offset:200});});'
   );
-
-  // (опционально) пометить AOS как defer
   if (function_exists('wp_script_add_data')) {
     wp_script_add_data('aos', 'defer', true);
   }
 
-  // Комменты (как было)
+  wp_enqueue_script(
+    'gsap',
+    'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js',
+    [],
+    '3.12.5',
+    true
+  );
+  wp_enqueue_script(
+    'gsap-scrolltrigger',
+    'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js',
+    ['gsap'],
+    '3.12.5',
+    true
+  );
+  if (function_exists('wp_script_add_data')) {
+    wp_script_add_data('gsap', 'defer', true);
+    wp_script_add_data('gsap-scrolltrigger', 'defer', true);
+  }
+  wp_add_inline_script('gsap-scrolltrigger', 'if(window.gsap&&window.ScrollTrigger){gsap.registerPlugin(ScrollTrigger);}');
+
+  wp_enqueue_script(
+    'services-slider',
+    get_template_directory_uri() . '/assets/js/services-slider.js',
+    ['gsap-scrolltrigger'],
+    _S_VERSION,
+    true
+  );
+
   if ( is_singular() && comments_open() && get_option('thread_comments') ) {
     wp_enqueue_script('comment-reply');
   }
 }
 add_action('wp_enqueue_scripts', 'project_london_scripts');
-
 
 
 /**
