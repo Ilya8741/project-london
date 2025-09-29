@@ -79,7 +79,7 @@
                                 <?php if ($name): ?><h3 class="team-modal__title"><?php echo esc_html($name); ?></h3><?php endif; ?>
                                 <?php if ($job):  ?><div class="team-modal__subtitle"><?php echo esc_html($job); ?></div><?php endif; ?>
                                 <?php if ($content): ?><div class="team-modal__content"><?php echo wp_kses_post($content); ?></div><?php endif; ?>
-                                <?php if ($linkedin_txt): ?>
+                                <?php if ($linkedin_url && $linkedin_txt): ?>
                                     <a class="team-modal__link main-button" href="<?php echo esc_url($linkedin_url); ?>" target="_blank" rel="noopener">
                                         <?php echo esc_html($linkedin_txt ?: 'Connect on LinkedIn'); ?>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
