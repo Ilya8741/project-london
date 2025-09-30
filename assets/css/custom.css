@@ -1544,6 +1544,7 @@ body.pl-lock {
 /* studio-hero styles */
 
 .studio-hero {
+  overflow: hidden;
   padding-top: 85px;
 }
 
@@ -1609,6 +1610,7 @@ body.pl-lock {
 /* black-slider styles */
 
 .black-slider {
+  overflow: hidden;
   background: #2b2b2b;
 }
 
@@ -1664,6 +1666,7 @@ body.pl-lock {
 .black-quote {
   padding-bottom: 160px;
   background: #2b2b2b;
+  overflow: hidden;
 }
 
 .black-quote-wrapper {
@@ -1986,6 +1989,16 @@ background: transparent;
   max-width: 432px;
 }
 
+.team-modal__content p , .team-modal__content span, .team-modal__content li {
+    color: #fff !important;
+  font-family: "Public Sans", sans-serif !important;
+  font-size: 16px !important;
+  font-style: normal !important;
+  font-weight: 300 !important;
+  line-height: 140% !important;
+  letter-spacing: -0.4px !important;
+}
+
 .team-modal__mount {
   margin-top: auto;
   margin-bottom: 0;
@@ -2089,6 +2102,7 @@ html.is-locked {
 
 .team-section {
   padding: 160px 0 120px 0;
+  overflow: hidden;
 }
 
 .team-modal__media {
@@ -2128,8 +2142,8 @@ html.is-locked {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .team-modal__content {
-    font-size: 14px;
+  .team-modal__content, .team-modal__content p, .team-modal__content span {
+    font-size: 14px !important;
   }
 
   .team-modal__title {
