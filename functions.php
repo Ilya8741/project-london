@@ -9,7 +9,7 @@
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '1.4.6' );
+	define( '_S_VERSION', '1.6.1' );
 }
 
 /**
@@ -195,7 +195,6 @@ function project_london_scripts() {
     true
   );
 
-  // Навигация
   wp_enqueue_script(
     'project-london-navigation',
     get_template_directory_uri() . '/js/navigation.js',
@@ -333,3 +332,45 @@ add_filter('wp_check_filetype_and_ext', function ($data, $file, $filename, $mime
     }
     return $data;
 }, 10, 5);
+
+add_action('init', function () {
+  // Portfolio
+  register_post_type('portfolio', [
+    'label'           => 'Portfolio',
+    'labels'          => [
+      'name' => 'Portfolio', 'singular_name' => 'Portfolio Item',
+      'add_new' => 'Add Item', 'add_new_item' => 'Add Portfolio Item',
+      'edit_item' => 'Edit Portfolio Item', 'new_item' => 'New Portfolio Item',
+      'view_item' => 'View Portfolio Item', 'search_items' => 'Search Portfolio',
+      'not_found' => 'No items found', 'not_found_in_trash' => 'No items in trash',
+      'all_items' => 'All Portfolio'
+    ],
+    'public'          => true,
+    'has_archive'     => true,         
+    'rewrite'         => ['slug' => 'portfolio'],
+    'show_in_rest'    => true,      
+    'menu_icon'       => 'dashicons-portfolio',
+    'supports'        => ['title','editor','thumbnail','excerpt','revisions'],
+    'taxonomies'      => ['category','post_tag'],
+  ]);
+
+  // Insights
+  register_post_type('insights', [
+    'label'           => 'Insights',
+    'labels'          => [
+      'name' => 'Insights', 'singular_name' => 'Insight',
+      'add_new' => 'Add Insight', 'add_new_item' => 'Add Insight',
+      'edit_item' => 'Edit Insight', 'new_item' => 'New Insight',
+      'view_item' => 'View Insight', 'search_items' => 'Search Insights',
+      'not_found' => 'No insights found', 'not_found_in_trash' => 'No insights in trash',
+      'all_items' => 'All Insights'
+    ],
+    'public'          => true,
+    'has_archive'     => true, 
+    'rewrite'         => ['slug' => 'insights'],
+    'show_in_rest'    => true,
+    'menu_icon'       => 'dashicons-lightbulb',
+    'supports'        => ['title','editor','thumbnail','excerpt','revisions'],
+    'taxonomies'      => ['category','post_tag'],
+  ]);
+});

@@ -1,6 +1,11 @@
 <div class="black-section" data-aos="fade-up" data-theme="dark">
     <div class="black-section-wrapper">
-        <div class="black-section-content">
+        <div class="black-section-content  <?php if (get_sub_field('version')): ?> black-section-content-v1<?php endif; ?>">
+            <?php if (get_sub_field('black_subtitle')): ?>
+                <p class="black-subtitle">
+                    <?php the_sub_field('black_subtitle'); ?>
+                </p>
+            <?php endif; ?>
             <h3 class="black-title">
                 <?php the_sub_field('black_title'); ?>
             </h3>

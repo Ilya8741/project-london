@@ -94,88 +94,66 @@
   }
 
   function setupMobile() {
+    // Без любых «прокруток трека»: только классы .is-active
     if (!window.gsap || !window.ScrollTrigger) {
-      console.warn("[services] no GSAP on mobile");
+      // даже без GSAP просто показываем первый
       safeShowFirst();
       return;
     }
     gsap.registerPlugin(ScrollTrigger);
 
     const steps = images.length;
+    contentCol.style.height = "";
 
-    track.style.display = "flex";
-    track.style.flexDirection = "column";
+    // 1) Снести любые старые триггеры/инлайны, чтобы не мешали CSS-транзишны
+    if (window.ScrollTrigger) {
+      ScrollTrigger.getAll().forEach(t => {
+        if (!t) return;
+        const trg = t.vars?.trigger;
+        if (trg === root || trg === grid || trg === stage) t.kill();
+      });
+    }
+    gsap.killTweensOf(track);
+    gsap.killTweensOf(images);
+    gsap.set(track, { clearProps: "transform" });
+    images.forEach(im => gsap.set(im, { clearProps: "transform,opacity,scale,y" }));
+
+    // 2) Очистить мобильные стили из прежней версии (flex-колонка и т.п.)
+    track.style.display = "";
+    track.style.flexDirection = "";
     images.forEach((el) => {
-      el.style.flex = "0 0 100%";
-      el.style.height = "100%";
+      el.style.flex = "";
+      el.style.height = "";
     });
 
+    // 3) Показать первый кадр: дальше всё будет делать CSS по .is-active
     commitActive(0);
 
-    let lastDirFallback = 0;
-    let touchStartY = null;
-
-    root.addEventListener("touchstart", (e) => {
-      touchStartY = e.touches && e.touches[0] ? e.touches[0].clientY : null;
-    }, { passive: true });
-
-    root.addEventListener("touchmove", (e) => {
-      if (touchStartY == null) return;
-      const y = e.touches && e.touches[0] ? e.touches[0].clientY : touchStartY;
-      const dy = y - touchStartY;
-      lastDirFallback = dy < 0 ? 1 : dy > 0 ? -1 : lastDirFallback;
-    }, { passive: true });
-
-    root.addEventListener("wheel", (e) => {
-      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) lastDirFallback = e.deltaY > 0 ? 1 : -1;
-    }, { passive: true });
+    // 4) Поведение как на десктопе: пинним грид, скрабим и снапим по шагам,
+    //    но НЕ двигаем track вообще — только меняем .is-active.
+    const perStep = Math.max(0.65 * window.innerHeight, 400);
 
     stMobile = ScrollTrigger.create({
       trigger: root,
       start: "top top+=100",
-      end: () => `+=${steps * window.innerHeight}`,
+      end: () => `+=${Math.max(0, (steps - 1)) * perStep}`,
       pin: grid,
       pinSpacing: true,
       scrub: true,
       anticipatePin: 1,
-
-      snap: {
-        snapTo: (value, self) => {
-          if (steps <= 1) return 0;
-          const total = steps - 1;
-
-          const d = (self && typeof self.direction === "number")
-            ? self.direction
-            : (window.ScrollTrigger && ScrollTrigger.direction) || lastDirFallback || 0;
-
-          let targetIdx = lastSnap + (d > 0 ? 1 : d < 0 ? -1 : 0);
-          if (targetIdx < 0) targetIdx = 0;
-          if (targetIdx > steps - 1) targetIdx = steps - 1;
-
-          return targetIdx / total;
-        },
-        delay: 0,
-        duration: 0.2,
-        ease: "power2.out",
+      snap: steps > 1 ? {
+        snapTo: (v) => Math.round(v * (steps - 1)) / (steps - 1),
+        duration: 0.22,
+        ease: "power1.out",
         inertia: false
-      },
-
+      } : false,
       onUpdate: (self) => {
-        const p = self.progress;
-        gsap.set(track, { yPercent: -p * (steps - 1) * 100, force3D: true });
-
-        const idx = steps > 1 ? Math.min(steps - 1, Math.round(p * (steps - 1))) : 0;
-        setActiveVisual(idx);
-      },
-
-      onSnapComplete: (self) => {
-        const idx = steps > 1 ? Math.round(self.progress * (steps - 1)) : 0;
-        commitActive(idx);
-        gsap.set(track, { yPercent: -idx * 100, force3D: true });
+        const idx = steps > 1 ? Math.min(steps - 1, Math.round(self.progress * (steps - 1))) : 0;
+        setActiveVisual(idx); // ТОЛЬКО классы — CSS сделает fade + translate
       }
     });
 
-    if (window.ScrollTrigger) ScrollTrigger.refresh();
+    ScrollTrigger.refresh();
   }
 
   function teardownMobile() {
@@ -183,9 +161,11 @@
       stMobile.kill();
       stMobile = null;
     }
+    // Ничего не анимируем на выходе — просто чистим высоту
     contentCol.style.height = "";
     if (window.ScrollTrigger) ScrollTrigger.refresh();
   }
+
 
   // ---------- INIT / SWITCH ----------
   function init() {
