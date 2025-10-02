@@ -14,7 +14,7 @@ $args = [
   'post_status'         => 'publish',
   'posts_per_page'      => -1,
   'orderby'             => $orderby,
-  'order'               => 'DESC',
+  'order'               => 'ASC',
   'ignore_sticky_posts' => true,
 ];
 if (!empty($exclude_ids)) {
