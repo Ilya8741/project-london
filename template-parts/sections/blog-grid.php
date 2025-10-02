@@ -49,14 +49,14 @@ function pl_get_img_alt($attachment_id) {
           <a href="<?php echo esc_url($url); ?>" class="grid-section-link">
             <div class="grid-section-image-wrapper">
               <?php echo $img_html ? $img_html : '<div class="grid-section-image-placeholder" aria-hidden="true"></div>'; ?>
-              <span class="grid-section-icon">
+              <span class="grid-section-icon blog-grid-section-icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false">
                   <path d="M0.771484 1H17.2286V17" stroke="white" stroke-width="1.10345" stroke-linecap="round" stroke-linejoin="round"></path>
                   <path d="M0.771484 17L17.2286 1" stroke="white" stroke-width="1.10345" stroke-linecap="round" stroke-linejoin="round"></path>
                 </svg>
               </span>
             </div>
-            <div class="grid-section-text"><?php echo esc_html($title); ?></div>
+            <div class="grid-section-text blog-grid-section-text"><?php echo esc_html($title); ?></div>
           </a>
         </div>
       <?php endwhile; wp_reset_postdata(); ?>
