@@ -10,9 +10,9 @@
                 <?php the_sub_field('black_title'); ?>
             </h3>
             <div class="black-section-content-bottom">
-                <p class="black-right-text">
+                <div class="black-right-text">
                     <?php the_sub_field('black_text'); ?>
-                </p>
+                </div>
                 <?php if (get_sub_field('black_button_text')): ?>
                     <a href="<?php the_sub_field('black_button_url'); ?>" class="black-section-button main-button">
                         <span><?php the_sub_field('black_button_text'); ?></span>
