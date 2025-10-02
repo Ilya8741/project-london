@@ -766,6 +766,7 @@ body.pl-lock {
 
 .black-section-content.black-section-content-v1 .black-right-text {
   opacity: 0.8;
+  font-size: 16px;
 }
 
 .black-section-content.black-section-content-v1 .black-title {
@@ -836,7 +837,7 @@ body.pl-lock {
   .black-right-text {
     gap: 16px;
   }
-  
+
   .black-subtitle {
     font-size: 16px;
   }
