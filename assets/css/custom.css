@@ -2488,11 +2488,11 @@ html.is-locked {
   aspect-ratio: 926 / 640;
 }
 
-.section-posts-grid .section-posts-grid-items .blog-grid-item:nth-child(14) {
+.section-posts-grid .section-posts-grid-items .blog-grid-item:nth-child(15) {
   grid-column: span 2;
 }
 
-.section-posts-grid-items  .blog-grid-item:nth-child(14) img {
+.section-posts-grid-items  .blog-grid-item:nth-child(15) img {
   aspect-ratio: 926 / 640;
 }
 
