@@ -15,9 +15,5 @@ if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
     }
     ?>
   </article>
-  <nav class="post-nav">
-    <?php previous_post_link('%link','← Previous'); ?>
-    <?php next_post_link('%link','Next →'); ?>
-  </nav>
 </main>
 <?php endwhile; endif; get_footer();

@@ -15,12 +15,13 @@ if ($items && is_array($items) && count($items)) :
                     $text     = wpautop(wp_kses_post($text_raw));
                 ?>
                     <div class="swiper-slide">
-                        <div class="process-card">
+                        <div class="process-card" data-aos="fade-right" data-aos-delay="<?php echo esc_attr($delay); ?>">
                             <?php if ($subtitle): ?><div class="process-subtitle"><?php echo $subtitle; ?></div><?php endif; ?>
                             <?php if ($title):    ?><h3 class="process-title"><?php echo $title; ?></h3><?php endif; ?>
                             <?php if ($text):     ?><div class="process-text"><?php echo $text; ?></div><?php endif; ?>
                         </div>
                     </div>
+                    <?php $delay += 100; ?>
                 <?php endforeach; ?>
             </div>
 
@@ -40,10 +41,6 @@ if ($items && is_array($items) && count($items)) :
                 breakpoints: {
                 768: { spaceBetween: 20,slidesPerView: 2.1,  },
                 992: { spaceBetween: 20,slidesPerView: 3.1,  }
-                },
-                autoplay: {
-                delay: 2000,
-                disableOnInteraction: false
                 }
             });
         });
