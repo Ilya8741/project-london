@@ -39,6 +39,9 @@
         </div>
 
     </div>
+    <div class="instafeed-swiper-shortcode">
+        <?php echo do_shortcode( get_sub_field('shortcodes') ); ?>
+    </div>
 </div>
 
 <script>
