@@ -1386,10 +1386,9 @@ body.pl-lock {
   display: none !important;
 }
 /* instafed slider */
-/* Контейнер фида → превращаем в горизонтальный скролл-слайдер */
 #sbi_images {
   --gap: 20px !important;
-  --slides: 4 !important; /* десктоп */
+  --slides: 4 !important; 
   --slide-w: calc((100% - (var(--gap) * (var(--slides) - 1))) / var(--slides)) !important;
 
   display: flex !important;
@@ -1401,7 +1400,6 @@ body.pl-lock {
   margin: 0 !important;
 
   scroll-snap-type: x mandatory !important;
-  /* Центруем активный слайд на десктопе */
   scroll-padding-inline: calc((100% - var(--slide-w)) / 2) !important;
 
   -webkit-overflow-scrolling: touch !important;
@@ -1409,14 +1407,20 @@ body.pl-lock {
 }
 #sbi_images::-webkit-scrollbar { display: none !important; }
 
-/* Элементы фида как слайды фиксированной ширины */
 #sbi_images .sbi_item {
   flex: 0 0 var(--slide-w) !important;
-  scroll-snap-align: center !important; /* центр на десктопе */
+  scroll-snap-align: center !important; 
   scroll-snap-stop: always !important;
 }
 
-/* Сброс лишних отступов/фонов внутри плагина */
+#sbi_images {
+  cursor: grab !important;
+}
+#sbi_images.dragging {
+  cursor: grabbing !important;
+}
+
+
 #sbi_images .sbi_photo_wrap,
 #sbi_images .sbi_photo {
   display: block !important;
@@ -1429,7 +1433,6 @@ body.pl-lock {
   margin: 0 !important;
 }
 
-/* Картинки растягиваются по ширине карточки */
 #sbi_images img {
   width: 100% !important;
   height: auto !important;
@@ -1437,14 +1440,12 @@ body.pl-lock {
   object-fit: cover !important;
 }
 
-/* Мобайл: 2.1 карточки, прижато к левому краю */
 @media (max-width: 991.98px) {
   #sbi_images {
     --gap: 8px !important;
-    --slides: 2.1 !important; /* даст “2.1” видимых */
+    --slides: 2.5 !important;
     --slide-w: calc((100% - (var(--gap) * (var(--slides) - 1))) / var(--slides)) !important;
 
-    /* без центрирования — старт слева */
     scroll-padding-inline: 0 !important;
   }
   #sbi_images .sbi_item {
