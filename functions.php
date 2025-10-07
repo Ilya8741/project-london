@@ -9,7 +9,7 @@
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '1.9.0' );
+	define( '_S_VERSION', '2.0.1' );
 }
 
 /**
@@ -139,6 +139,7 @@ add_action( 'widgets_init', 'project_london_widgets_init' );
  */
 function project_london_scripts() {
 
+  /* ===== CSS ===== */
   wp_enqueue_style(
     'theme-fonts',
     get_stylesheet_directory_uri() . '/assets/css/fonts.css',
@@ -157,12 +158,22 @@ function project_london_scripts() {
     '2.3.4'
   );
 
+  // Swiper (CSS)
+  wp_enqueue_style(
+    'swiper-css',
+    'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css',
+    [],
+    '11.0.0'
+  );
+
   wp_enqueue_style(
     'project-london-custom',
     get_template_directory_uri() . '/assets/css/custom.css',
-    ['project-london-style', 'theme-fonts', 'aos'],
+    ['project-london-style', 'theme-fonts', 'aos', 'swiper-css'],
     _S_VERSION
   );
+
+  /* ===== JS ===== */
 
   // Header menu
   wp_enqueue_script(
@@ -174,12 +185,6 @@ function project_london_scripts() {
   );
 
   // Swiper
-  wp_enqueue_style(
-    'swiper-css',
-    'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css',
-    [],
-    '11.0.0'
-  );
   wp_enqueue_script(
     'swiper-js',
     'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js',
@@ -219,6 +224,7 @@ function project_london_scripts() {
     wp_script_add_data('aos', 'defer', true);
   }
 
+  // GSAP
   wp_enqueue_script(
     'gsap',
     'https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js',
@@ -247,6 +253,24 @@ function project_london_scripts() {
     true
   );
 
+  wp_add_inline_style('project-london-custom', '
+    .plb-swiper{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:100%;height:min(70vh,900px);}
+    .plb-swiper .swiper-slide{display:flex;align-items:center;justify-content:center;transition:transform .25s ease, opacity .25s ease;opacity:.5;}
+    .plb-swiper .swiper-slide.swiper-slide-active{opacity:1;transform:scale(1);}
+    .plb-slide-img{max-width:100%;max-height:100%;}
+    .plb-close{position:absolute;top:24px;right:18px;width:40px;height:40px;border:0;cursor:pointer}
+    .plb-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  ');
+
+  wp_enqueue_script(
+    'project-swiper-lightbox',
+    get_template_directory_uri() . '/assets/js/swiper-lightbox.js',
+    ['swiper-js'],
+    _S_VERSION,
+    true
+  );
+
+  // Комменты
   if ( is_singular() && comments_open() && get_option('thread_comments') ) {
     wp_enqueue_script('comment-reply');
   }
