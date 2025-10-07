@@ -455,9 +455,9 @@ html {
   }
 }
 
-#wpadminbar {
+/* #wpadminbar {
   display: none !important;
-}
+} */
 
 .header-burger-menu-wrapper {
   padding: 85px 20px;
@@ -2788,7 +2788,7 @@ html.is-locked {
 
 .services-hero-item {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   padding-bottom: 8px;
   border-bottom: 1px solid rgba(43, 43, 43, 0.25);
   width: 100%;

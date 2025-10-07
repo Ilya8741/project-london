@@ -102,7 +102,7 @@
     if (!window.gsap) {
       const start = performance.now();
       (function tick(now) {
-        const p = Math.min(1, (now - start) / (dur * 1000));
+        const p = Math.min(1, (now - start) / (dur * 2000));
         const val = from + (target - from) * p;
         el.textContent = prefix + format(val, locale, decs) + suffix;
         if (p < 1) requestAnimationFrame(tick);
