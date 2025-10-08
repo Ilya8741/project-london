@@ -10,7 +10,7 @@ function pl_get_thumb_alt($post_id){
   return $alt !== '' ? $alt : get_the_title($post_id);
 }
 ?>
-<div class="hero-slider<?php if (get_sub_field('spacing_top')): ?> hero-slider-top-none<?php endif; ?>" data-aos="fade-up" data-aos-offset="200" data-aos-delay="200">
+<div class="hero-slider<?php if (get_sub_field('spacing_top')): ?> hero-slider-top-none<?php endif; ?>" data-aos="fade-up" data-aos-duration="600" data-aos-delay="100" data-aos-easing="ease-out">
   <div class="hero-slider-wrapper">
     <div class="hero-slider-swiper swiper _swiper" data-slides-count="<?php echo (int)$posts_count; ?>">
       <div class="swiper-wrapper">

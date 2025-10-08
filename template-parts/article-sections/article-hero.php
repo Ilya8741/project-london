@@ -14,14 +14,14 @@
             <?php endif; ?>
         </div>
         <div class="article-hero-content">
-            <div class="article-hero-content-left">
+            <div class="article-hero-content-left"  data-aos="fade-right" data-aos-duration="600" data-aos-delay="100" data-aos-easing="ease-out">
                 <h1 class="article-hero-title"><?php echo esc_html(get_the_title()); ?></h1>
             <?php $excerpt = get_the_excerpt(); ?>
             <?php if ($excerpt) : ?>
                 <div class="article-hero-excerpt"><?php echo wp_kses_post($excerpt); ?></div>
             <?php endif; ?>
             </div>
-            <div class="article-spoiler" data-open="false">
+            <div class="article-spoiler" data-open="false"  data-aos="fade-left" data-aos-duration="600" data-aos-delay="100" data-aos-easing="ease-out">
                 <button class="article-spoiler__toggle" type="button" aria-expanded="false">
                     <span>Services provided</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">

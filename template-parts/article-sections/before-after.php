@@ -3,7 +3,7 @@ $before = get_sub_field('before_image');
 $after  = get_sub_field('after_image'); 
 if (!$before && !$after) return;
 ?>
-<section class="before-after <?php if (get_sub_field('top_spacing')): ?> before-after-top-none <?php endif; ?> <?php if (get_sub_field('bottom_spacing')): ?> before-after-bottom-none <?php endif; ?>" data-aos="fade-up" data-aos-offset="200" data-aos-delay="200">
+<section class="before-after <?php if (get_sub_field('top_spacing')): ?> before-after-top-none <?php endif; ?> <?php if (get_sub_field('bottom_spacing')): ?> before-after-bottom-none <?php endif; ?>" data-aos="fade-up" data-aos-duration="600" data-aos-delay="100" data-aos-easing="ease-out">
     <div class="before-after__wrap">
         <div class="before-after__viewport" style="--pos:50%;">
             <?php if ($after): ?>

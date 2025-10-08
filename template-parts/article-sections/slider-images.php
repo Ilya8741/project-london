@@ -1,5 +1,5 @@
 <div class="black-slider article-black-slider">
-  <div class="black-slider-wrapper" data-aos="fade-right"  data-aos-offset="200" data-aos-delay="200"> 
+  <div class="black-slider-wrapper" data-aos="fade-left" data-aos-duration="600" data-aos-delay="100" data-aos-easing="ease-out"> 
   <?php
   $black_slides = [];
   if (have_rows('slider_images')):

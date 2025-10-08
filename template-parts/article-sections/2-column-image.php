@@ -16,7 +16,7 @@ if ( get_sub_field('padding_bottom') ) { $classes[] = 'padding-bottom-none'; }
   <div class="two-column-image-wrapper">
     <?php $image1 = get_sub_field('image1'); ?>
     <?php if ($image1): ?>
-      <div class="two-column-media-wrapper two-column-media-wrapper-first">
+      <div class="two-column-media-wrapper two-column-media-wrapper-first" data-aos="fade-right" data-aos-duration="600" data-aos-delay="100" data-aos-easing="ease-out">
       <a class="js-lightbox" href="<?php echo esc_url($image1['url']); ?>">
         <img src="<?php echo esc_url($image1['url']); ?>" class="two-column-media-image" alt="<?php echo esc_attr($image1['alt']); ?>">
     </a>
@@ -24,7 +24,7 @@ if ( get_sub_field('padding_bottom') ) { $classes[] = 'padding-bottom-none'; }
     <?php endif; ?>
      <?php $image2 = get_sub_field('image2'); ?>
     <?php if ($image2): ?>
-      <div class="two-column-media-wrapper two-column-media-wrapper-second">
+      <div class="two-column-media-wrapper two-column-media-wrapper-second" data-aos="fade-left" data-aos-duration="600" data-aos-delay="100" data-aos-easing="ease-out">
            <a class="js-lightbox" href="<?php echo esc_url($image2['url']); ?>">
         <img src="<?php echo esc_url($image2['url']); ?>" class="two-column-media-image" alt="<?php echo esc_attr($image2['alt']); ?>">
         </a>

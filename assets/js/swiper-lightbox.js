@@ -119,7 +119,7 @@
       initialSlide: Math.max(0, startIndex || 0),
       centeredSlides: true,
       slidesPerView: "auto",
-      spaceBetween: 17,
+      spaceBetween: 20,
       loop: false,
       watchSlidesProgress: true,
       observer: true,
@@ -131,7 +131,7 @@
         0: {
           slidesPerView: 1,
           centeredSlides: true,
-          spaceBetween: 0,
+          spaceBetween: 20,
         },
         768: {
           slidesPerView: "auto",

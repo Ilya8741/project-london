@@ -16,7 +16,7 @@ if ( get_sub_field('padding_bottom') ) { $classes[] = 'padding-bottom-none'; }
   <div class="one-column-image-wrapper one-column-image-wrapper">
     <?php $image1 = get_sub_field('image'); ?>
     <?php if ($image1): ?>
-      <div class="one-column-media-wrapper">
+      <div class="one-column-media-wrapper" data-aos="fade-up" data-aos-duration="600" data-aos-delay="100" data-aos-easing="ease-out">
          <a class="js-lightbox" href="<?php echo esc_url($image1['url']); ?>">
         <img src="<?php echo esc_url($image1['url']); ?>" class="one-column-media-image" alt="<?php echo esc_attr($image1['alt']); ?>">
         </a>
@@ -24,7 +24,7 @@ if ( get_sub_field('padding_bottom') ) { $classes[] = 'padding-bottom-none'; }
     <?php endif; ?>
 
     <?php if ( get_sub_field('button_text') ): ?>
-      <a href="<?php the_sub_field('button_url'); ?>" class="one-column-image-button lightbox-button main-button">
+      <a href="<?php the_sub_field('button_url'); ?>" class="one-column-image-button lightbox-button main-button" data-aos="fade-up" data-aos-duration="600" data-aos-delay="100" data-aos-easing="ease-out">
         <span><?php the_sub_field('button_text'); ?></span>
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path d="M1 1H13V13" stroke="#717171" stroke-width="0.5" stroke-linejoin="round" />

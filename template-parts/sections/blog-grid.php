@@ -30,13 +30,14 @@ function pl_get_img_alt($attachment_id) {
   return $img_post ? $img_post->post_title : '';
 }
 ?>
-<section class="section-posts-grid">
+<section class="section-posts-grid <?php if ( get_sub_field('version') ) : ?> insights-posts-grid <?php endif; ?>">
   <?php if ($q->have_posts()) : ?>
-    <div class="section-posts-grid-items">
+    <div class="<?php if ( get_sub_field('version') ) : ?> insights-posts-grid-items <?php else : ?> section-posts-grid-items <?php endif; ?>">
       <?php while ($q->have_posts()) : $q->the_post();
         $pid   = get_the_ID();
         $url   = get_permalink($pid);
         $title = get_the_title($pid);
+        $excerpt = get_the_excerpt($pid);
         $img_html = '';
         if (has_post_thumbnail($pid)) {
           $thumb_id = get_post_thumbnail_id($pid);
@@ -57,6 +58,9 @@ function pl_get_img_alt($attachment_id) {
               </span>
             </div>
             <div class="grid-section-text blog-grid-section-text"><?php echo esc_html($title); ?></div>
+            <?php if ( get_sub_field('version') ) : ?> 
+              <div class="blog-grid-section-excerpt"><?php echo esc_html($excerpt); ?></div>
+            <?php endif; ?>
           </a>
         </div>
       <?php endwhile; wp_reset_postdata(); ?>
