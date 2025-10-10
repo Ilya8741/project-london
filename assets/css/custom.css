@@ -2034,7 +2034,7 @@ letter-spacing: -0.4px;
 }
 
 .share-btn {
-  position: relative; /* чтобы подсказка крепилась к кнопке */
+  position: relative;
 }
 
 .share-tip {
@@ -3802,8 +3802,9 @@ html.is-locked {
 }
 
 .two-column-image-wrapper {
-  display: flex;
+  display: grid;
   align-items: flex-end;
+  grid-template-columns: repeat(2, 1fr);
   gap: 138px;
   max-width: 1440px;
   padding: 0 20px;
@@ -4026,7 +4027,7 @@ html.is-locked {
 
 @media (max-width: 768px) {
   .two-column-image-wrapper {
-    flex-direction: column;
+     grid-template-columns: repeat(1, 1fr);
     padding: 0 24px;
   }
 
