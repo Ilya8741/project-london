@@ -1,4 +1,4 @@
-<div class="insights-article">
+<div class="insights-article  <?php if (get_sub_field('bottom_spacing')): ?> insights-article-bottom-spacing<?php endif; ?>">
     <div class="insights-article-wrapper">
         <div class="insights-article-media-wrapper" data-aos="fade-up" data-aos-duration="600" data-aos-delay="100" data-aos-easing="ease-out">
             <?php $image1 = get_sub_field('main_image'); ?>

@@ -480,6 +480,27 @@
                             "ui_off_text": ""
                         },
                         {
+                            "key": "field_68eba347f02c1",
+                            "label": "None bottom spacing",
+                            "name": "none_bottom_spacing",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 0,
+                            "allow_in_bindings": 0,
+                            "ui": 0,
+                            "ui_on_text": "",
+                            "ui_off_text": ""
+                        },
+                        {
                             "key": "field_68e6afe954a42",
                             "label": "Medium width",
                             "name": "medium_width",
@@ -1083,6 +1104,27 @@
                             "toolbar": "full",
                             "media_upload": 1,
                             "delay": 0
+                        },
+                        {
+                            "key": "field_68eba37e69a9d",
+                            "label": "Bottom spacing",
+                            "name": "bottom_spacing",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 0,
+                            "allow_in_bindings": 0,
+                            "ui": 0,
+                            "ui_on_text": "",
+                            "ui_off_text": ""
                         }
                     ],
                     "min": "",
@@ -1443,5 +1485,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1759951266
+    "modified": 1760273481
 }

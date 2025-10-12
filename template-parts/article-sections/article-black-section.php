@@ -26,9 +26,12 @@
         </div>
         <div class="black-section-image-wrapper">
             <?php $image1 = get_sub_field('black_image'); ?>
+             
             <?php if ($image1): ?>
+                <a class="js-lightbox" href="<?php echo esc_url($image1['url']); ?>">
                 <img src="<?php echo esc_url($image1['url']); ?>" class="black-section-image" alt="<?php echo esc_attr($image1['alt']); ?>">
-            <?php endif; ?>
+            </a>
+                <?php endif; ?>
         </div>
     </div>
 </div>

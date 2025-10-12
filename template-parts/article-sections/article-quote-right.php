@@ -1,4 +1,4 @@
-<div class="quote-right <?php if (get_sub_field('spacing')): ?> quote-right-spacing-none<?php endif; ?> <?php if (get_sub_field('medium_width')): ?> quote-medium-width<?php endif; ?>">
+<div class="quote-right <?php if (get_sub_field('none_bottom_spacing')): ?> quote-bottom-spacing-none<?php endif; ?>  <?php if (get_sub_field('spacing')): ?> quote-right-spacing-none<?php endif; ?> <?php if (get_sub_field('medium_width')): ?> quote-medium-width<?php endif; ?>">
     <div class="quote-right-wrapper" data-aos="fade-left" data-aos-duration="600" data-aos-delay="100" data-aos-easing="ease-out">
         <div class="quote-right-content">
             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="27" viewBox="0 0 40 27" fill="none">

@@ -3,8 +3,11 @@
         <div class="article-hero-media-wrapper" data-theme="dark">
             <?php $image1 = get_sub_field('featured_image'); ?>
             <?php if ($image1): ?>
-                <img src="<?php echo esc_url($image1['url']); ?>" class="article-hero-image" alt="<?php echo esc_attr($image1['alt']); ?>">
-            <?php endif; ?>
+                <a class="js-lightbox" href="<?php echo esc_url($image1['url']); ?>">
+                    <img src="<?php echo esc_url($image1['url']); ?>" class="article-hero-image" alt="<?php echo esc_attr($image1['alt']); ?>">
+                </a>
+                <?php endif; ?>
+
             <?php
             $hero_video = get_sub_field('featured_video');
             if ($hero_video): ?>
