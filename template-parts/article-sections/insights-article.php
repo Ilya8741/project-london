@@ -81,7 +81,7 @@
             </div>
             
       <?php if (get_sub_field('article_url')): ?>
-            <a class="insights-featured__btn insights-article-button main-button" href="<?php the_sub_field('article_url'); ?>">
+            <a class="insights-featured__btn insights-article-button main-button" href="<?php the_sub_field('article_url'); ?>" target="_blank">
                         <span>Read full article</span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
                             <path d="M1 1H13V13" stroke="#fff" stroke-width="0.5" stroke-linejoin="round" />
