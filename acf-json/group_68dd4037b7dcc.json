@@ -1132,6 +1132,24 @@
                             "delay": 0
                         },
                         {
+                            "key": "field_68ecec3789ef7",
+                            "label": "Article URL",
+                            "name": "article_url",
+                            "aria-label": "",
+                            "type": "url",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": ""
+                        },
+                        {
                             "key": "field_68eba37e69a9d",
                             "label": "Bottom spacing",
                             "name": "bottom_spacing",
@@ -1511,5 +1529,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1760352010
+    "modified": 1760357452
 }
