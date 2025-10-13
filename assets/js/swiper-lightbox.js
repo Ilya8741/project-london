@@ -187,8 +187,6 @@
   document.addEventListener("keydown", function (e) {
     if (!overlay.classList.contains("is-open")) return;
     if (e.key === "Escape") close();
-    if (e.key === "ArrowLeft" && swiper) swiper.slidePrev();
-    if (e.key === "ArrowRight" && swiper) swiper.slideNext();
   });
 
   document.addEventListener("click", function (e) {

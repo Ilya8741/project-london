@@ -28,24 +28,11 @@ if ($pid):
         $alt      = get_post_meta($thumb_id, '_wp_attachment_image_alt', true) ?: $title;
         $img_html = '<img src="' . esc_url($src) . '" alt="' . esc_attr($alt) . '" loading="lazy" decoding="async">';
     }
-    $targets = [
-        'Inside the art of living beautifully',
-        "Inside the art\u{2028}of living beautifully",
-    ];
-    $norm = static function ($s) {
-        return preg_replace('/\s+/u', ' ', trim((string)$s));
-    };
-
-    if (in_array($norm($title), array_map($norm, $targets), true)) {
-        $safe = esc_html($title);
-        $title_out = preg_replace('/\bart(?:\h|\x{2028})*of/u', 'art <br>of', $safe, 1);
-    } else {
-        $title_out = esc_html($title);
-    }
+ 
 ?>
     <section class="insights-featured" data-theme="dark">
         <div class="insights-featured__inner">
-            <h2 class="insights-featured__title" data-aos="fade-right"><?php echo $title_out; ?></h2>
+            <h2 class="insights-featured__title" data-aos="fade-right"><?php the_sub_field('title'); ?></h2>
             <div class="insights-featured-grid">
                 <div class="insights-featured__image" data-aos="fade-right">
                     <?php echo $img_html ?: '<div class="insights-featured__placeholder" aria-hidden="true"></div>'; ?>

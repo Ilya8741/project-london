@@ -9,16 +9,35 @@ foreach ((array)$raw_exclude as $item) {
 }
 $exclude_ids = array_filter(array_unique($exclude_ids));
 
-$args = [
-  'post_type'           => $post_type,
-  'post_status'         => 'publish',
-  'posts_per_page'      => -1,
-  'orderby'             => $orderby,
-  'order'               => 'ASC',
-  'ignore_sticky_posts' => true,
-];
-if (!empty($exclude_ids)) {
-  $args['post__not_in'] = $exclude_ids;
+$manual_raw = get_sub_field('manual_posts') ?: [];
+$manual_ids = [];
+foreach ((array)$manual_raw as $p) {
+  $manual_ids[] = is_object($p) ? (int)$p->ID : (int)$p;
+}
+$manual_ids = array_values(array_filter(array_unique($manual_ids)));
+
+if (!empty($manual_ids)) {
+  $args = [
+    'post_type'           => $post_type,
+    'post_status'         => 'publish',
+    'posts_per_page'      => count($manual_ids),
+    'post__in'            => $manual_ids,
+    'orderby'             => 'post__in', 
+    'ignore_sticky_posts' => true,
+  ];
+
+} else {
+  $args = [
+    'post_type'           => $post_type,
+    'post_status'         => 'publish',
+    'posts_per_page'      => -1,
+    'orderby'             => $orderby,
+    'order'               => 'ASC',
+    'ignore_sticky_posts' => true,
+  ];
+  if (!empty($exclude_ids)) {
+    $args['post__not_in'] = $exclude_ids;
+  }
 }
 
 $q = new WP_Query($args);
@@ -30,6 +49,8 @@ function pl_get_img_alt($attachment_id) {
   return $img_post ? $img_post->post_title : '';
 }
 ?>
+
+
 <section class="section-posts-grid <?php if ( get_sub_field('version') ) : ?> insights-posts-grid <?php endif; ?>">
   <?php if ($q->have_posts()) : ?>
     <div class="<?php if ( get_sub_field('version') ) : ?> insights-posts-grid-items <?php else : ?> section-posts-grid-items <?php endif; ?>">

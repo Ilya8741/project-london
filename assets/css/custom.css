@@ -37,6 +37,9 @@ body {
   bottom: 20px;
   background: #fff;
   color: #2b2b2b;
+  border-radius: 0 !important;
+  border: none !important;
+  cursor: pointer;
 }
 
 .main-button svg {
@@ -3336,7 +3339,6 @@ html.is-locked {
   }
 }
 
-.article-hero-content,
 .two-column-image-main {
   overflow: hidden;
 }
@@ -3513,7 +3515,7 @@ html.is-locked {
   object-fit: cover;
 }
 
-.article-hero-media-wrapper {
+.article-hero {
   margin-top: -118px;
 }
 
@@ -3527,6 +3529,13 @@ html.is-locked {
   align-items: flex-end;
   margin-top: 64px;
   margin-bottom: 160px;
+  overflow: visible;
+  padding-bottom: var(--spoiler-pb, 0px);
+}
+
+.article-spoiler {
+  position: relative;
+  align-self: end;
 }
 
 .article-hero-content-left {
@@ -3584,10 +3593,18 @@ html.is-locked {
 }
 
 .article-spoiler__panel {
-  overflow: hidden;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 8px);
   height: 0;
+  overflow: hidden;
   opacity: 0;
-  transition: height 0.35s ease, opacity 0.25s ease;
+  transition: height 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s ease;
+}
+
+.article-spoiler[data-open="true"] .article-spoiler__panel {
+  opacity: 1;
 }
 
 .article-tags-grid {
@@ -3610,6 +3627,96 @@ html.is-locked {
   color: #999;
 }
 
+/* article aniamate-hero */
+
+.article-hero {
+  position: relative;
+}
+
+.article-hero-wrapper {
+  position: relative;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+.article-hero-media-wrapper {
+  position: sticky;
+  top: var(--stick-top, 0); 
+  z-index: 1; 
+  overflow: hidden;
+  margin-top: 0; 
+}
+
+.article-hero-media-wrapper img,
+.article-hero-media-wrapper video,
+.article-hero-image,
+.article-hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.article-hero-content-wrapper {
+  position: relative;
+  z-index: 2;
+  padding-top: 64px; 
+  overflow: visible;
+}
+
+.article-hero-content {
+  display: grid;
+  grid-template-columns: 0.83fr 1fr;
+  gap: 138px;
+  max-width: 1440px;
+  padding: 0 20px;
+  margin: 0 auto 160px;
+  align-items: flex-end;
+  overflow: visible;
+  padding-bottom: var(--spoiler-pb, 0px);
+}
+
+.article-hero-content-wrapper,
+.article-hero-content-left,
+.article-spoiler {
+  background: #f7f7f7;
+}
+
+/* спойлер остаётся внизу правой колонки */
+.article-spoiler {
+  position: relative;
+  align-self: end;
+}
+
+/* панель спойлера (как у тебя) */
+.article-spoiler__panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 8px);
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: height 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s ease;
+}
+.article-spoiler[data-open="true"] .article-spoiler__panel {
+  opacity: 1;
+}
+
+.hero-one-column-media-wrapper {
+  margin: 0 0 0 auto;
+  display: flex;
+  width: 83%;
+  aspect-ratio: 1170 / 720;
+}
+
+@media(min-width: 2150px) {
+  .article-hero-media-wrapper {
+    height: 100vh;
+    aspect-ratio: initial;
+  }
+}
+
 @media (max-width: 1200px) {
   .article-hero-content {
     gap: 80px;
@@ -3617,6 +3724,13 @@ html.is-locked {
 }
 
 @media (max-width: 992px) {
+  .hero-one-column-media-wrapper {
+    padding-top: 120px;
+  }
+  .hero-one-column-media-wrapper {
+    width: 100%;
+    aspect-ratio: 380 / 300;
+  }
   .article-hero-content-left {
     gap: 16px;
     width: 100%;
@@ -3649,9 +3763,8 @@ html.is-locked {
     margin-top: 32px;
   }
 
-  .article-hero-media-wrapper {
+  .article-hero {
     margin-top: -94px;
-    aspect-ratio: 430 / 320;
   }
 }
 
@@ -3659,6 +3772,21 @@ html.is-locked {
   .article-tags-grid {
     grid-template-columns: repeat(1, 1fr);
     padding-top: 16px;
+  }
+}
+
+@media (max-width: 992px) {
+  .article-hero-content-wrapper {
+    padding-top: 32px;
+    padding-bottom: 64px;
+  }
+  .article-hero-content {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .article-hero-content {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
 }
 

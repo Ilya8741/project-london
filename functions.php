@@ -9,7 +9,7 @@
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '2.1.0' );
+	define( '_S_VERSION', '2.1.9' );
 }
 
 /**
@@ -244,14 +244,6 @@ function project_london_scripts() {
     wp_script_add_data('gsap-scrolltrigger', 'defer', true);
   }
   wp_add_inline_script('gsap-scrolltrigger', 'if(window.gsap&&window.ScrollTrigger){gsap.registerPlugin(ScrollTrigger);}');
-
-  wp_enqueue_script(
-    'services-slider',
-    get_template_directory_uri() . '/assets/js/services-slider.js',
-    ['gsap-scrolltrigger'],
-    _S_VERSION,
-    true
-  );
 
   wp_add_inline_style('project-london-custom', '
     .plb-swiper{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:100%;height:min(70vh,900px);}
