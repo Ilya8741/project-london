@@ -182,7 +182,7 @@
                             "label": "Button URL",
                             "name": "quote_button_url",
                             "aria-label": "",
-                            "type": "url",
+                            "type": "text",
                             "instructions": "",
                             "required": 0,
                             "conditional_logic": 0,
@@ -192,8 +192,11 @@
                                 "id": ""
                             },
                             "default_value": "",
-                            "allow_in_bindings": 0,
-                            "placeholder": ""
+                            "maxlength": "",
+                            "allow_in_bindings": 1,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
                         },
                         {
                             "key": "field_68d27df6c4d85",
@@ -3642,5 +3645,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1760445234
+    "modified": 1760448637
 }

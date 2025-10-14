@@ -17,7 +17,7 @@
  */
 ?>
 
-<section class="careers-section">
+<section class="careers-section" id="current-opportunities">
   <div class="careers-section-wrapper">
     <div class="careers-section-header">
       <div class="careers-section-header-left" data-aos="fade-right" data-aos-offset="200">
