@@ -5,7 +5,7 @@ if ($items && is_array($items) && count($items)) :
     $loop   = $slides_count > 1;
     $autoplay = $slides_count > 1;
 ?>
-    <section class="process-slider">
+    <section class="process-slider  <?php if (get_sub_field('top_mobile_spacing')): ?> process-slider-top<?php endif; ?>">
         <div class="swiper process-swiper">
             <div class="swiper-wrapper">
                 <?php foreach ($items as $row):

@@ -29,6 +29,7 @@ body {
   background: #fff;
   transition: all 0.3s ease;
   text-decoration: none;
+  outline: 0;
 }
 
 .hero-section-button.main-button {
@@ -1823,7 +1824,7 @@ body.pl-lock {
     margin-top: 24px;
   }
 
-  .insights-article-button.insights-featured__btn{
+  .insights-article-button.insights-featured__btn {
     margin-top: 32px;
   }
 
@@ -3662,10 +3663,10 @@ html.is-locked {
 
 .article-hero-media-wrapper {
   position: sticky;
-  top: var(--stick-top, 0); 
-  z-index: 1; 
+  top: var(--stick-top, 0);
+  z-index: 1;
   overflow: hidden;
-  margin-top: 0; 
+  margin-top: 0;
 }
 
 .article-hero-media-wrapper img,
@@ -3681,7 +3682,7 @@ html.is-locked {
 .article-hero-content-wrapper {
   position: relative;
   z-index: 2;
-  padding-top: 64px; 
+  padding-top: 64px;
   overflow: visible;
 }
 
@@ -3731,7 +3732,7 @@ html.is-locked {
   aspect-ratio: 1170 / 720;
 }
 
-@media(min-width: 2150px) {
+@media (min-width: 2150px) {
   .article-hero-media-wrapper {
     height: 100vh;
     aspect-ratio: initial;
@@ -3907,6 +3908,7 @@ html.is-locked {
 .one-column-image-main .one-column-media-wrapper {
   width: 83%;
   aspect-ratio: 1170 / 720;
+  display: flex;
 }
 
 .one-column-center .one-column-media-wrapper {
@@ -4253,7 +4255,62 @@ html.is-locked {
   padding-bottom: 0 !important;
 }
 
+/* careers-slider-swiper styles */
+
+.careers-slider-title-wrapper {
+  max-width: 1440px;
+  padding: 0 20px;
+  margin: 70px auto 100px auto;
+}
+
+.careers-slider-title {
+  color: #2b2b2b;
+  font-family: "Test Newzald", sans-serif;
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 110%;
+  display: block;
+  max-width: 700px;
+}
+
+.careers-slider-swiper img {
+  aspect-ratio: 584 / 640;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.careers-slider-swiper .swiper-slide {
+  display: flex;
+}
+
+.careers-slider-wrapper {
+  padding-left: 20px;
+}
+
 @media (max-width: 992px) {
+  .careers-slider {
+    margin-bottom: -48px;
+  }
+  .careers-slider-title-wrapper {
+    padding: 0 24px;
+    margin: 80px 0 32px 0;
+  }
+
+  .careers-slider-title {
+    font-size: 42px;
+    line-height: 100%;
+  }
+
+  .careers-slider-swiper img {
+    aspect-ratio: 384 / 421;
+  }
+
+  .careers-slider-wrapper {
+    padding-left: 24px;
+  }
+
   .article-black-slider .black-slider-swiper .swiper-slide.slide--wide {
     width: 282px;
   }
@@ -4309,9 +4366,900 @@ html.is-locked {
   padding: 0 0 160px 20px;
 }
 
+.one-column-image-main-sec {
+  padding-bottom: 50px;
+}
+
+.careers-black,
+.careers-section {
+  padding: 0 20px;
+  margin: 0 auto;
+  max-width: 1440px;
+}
+
+.careers-section-wrapper {
+  max-width: 1440px;
+  margin: auto;
+  padding: 80px;
+  background: #fff;
+}
+
+.job-item__row {
+  grid-template-columns: 0.5fr 0.8fr 0.5fr;
+  gap: 20px;
+  display: grid;
+  padding: 0 0 24px 0;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid rgba(113, 113, 113, 0.25);
+  background: transparent;
+  width: 100%;
+  cursor: pointer;
+}
+
+.job-item__row:hover {
+  border-color: rgba(113, 113, 113, 0.25);
+}
+
+.job-item__row .job-item__title {
+  color: #2b2b2b;
+  font-family: "Public Sans", sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px; /* 155.556% */
+  letter-spacing: -0.4px;
+  display: flex;
+  align-items: center;
+}
+
+.job-item__tags {
+  color: #2b2b2b;
+  font-family: "Public Sans", sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px; /* 155.556% */
+  letter-spacing: -0.4px;
+  opacity: 0.5;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.job-item__cta.main-button {
+  border: 1px solid rgba(113, 113, 113, 0.25);
+  background: #fff;
+  color: #2b2b2b;
+  width: fit-content;
+  margin-left: auto;
+}
+
+.job-item__cta.main-button:hover {
+  color: #fff;
+  background: #2b2b2b;
+}
+
+.job-item__cta.main-button:hover svg path {
+  stroke: #fff;
+}
+
+.careers-black-wrapper {
+  max-width: 1440px;
+  margin: auto;
+  padding: 114px 80px;
+  background: #2b2b2b;
+}
+
+.careers-black-title {
+  color: #fff;
+
+  font-family: "Test Newzald", sans-serif;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%; /* 41.6px */
+  letter-spacing: -0.4px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.careers-black-text {
+  color: #fff;
+  font-family: "Public Sans", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 140%; /* 22.4px */
+  letter-spacing: -0.4px;
+  display: block;
+  max-width: 528px;
+}
+
+.careers-black-emal-text {
+  color: #fff;
+  font-family: "Public Sans", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 30px;
+  letter-spacing: -0.4px;
+}
+
+.careers-black-top {
+  margin-bottom: 40px;
+}
+
+.main-button.mail-button {
+  color: #2b2b2b;
+  background: #fff;
+  border: 1px solid #fff;
+  width: fit-content;
+  margin-top: 10px;
+}
+
+.main-button.mail-button svg {
+  width: 20px;
+  min-width: 20px;
+  height: 20px;
+}
+
+.main-button.mail-button:hover {
+  color: #fff;
+  background: #2b2b2b;
+}
+
+.main-button.mail-button:hover svg path {
+  stroke: #fff;
+}
+
+.slide-subtitle {
+  color: #717171;
+  font-family: "Public Sans", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: -0.4px;
+}
+
+.slide-bottom-text {
+  color: #2b2b2b;
+
+  font-family: "Public Sans", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 140%; /* 22.4px */
+  letter-spacing: -0.4px;
+  display: block;
+  margin-top: 16px;
+}
+
+.testimonials-hero-slider .hero-slider-item::after {
+  display: none;
+}
+
+.team-modal__content h3,
+.team-modal__content h5,
+.team-modal__content h4 {
+  opacity: 0.5;
+  color: #fff;
+  font-family: "Public Sans", sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: -0.4px;
+  margin-top: 32px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.careers-team-modal .team-modal__title {
+  margin-bottom: 8px !important;
+}
+
+.careers-team-modal .team-modal__subtitle {
+  font-size: 18px;
+  color: #fff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  opacity: 0.5;
+}
+
+.careers-team-modal__link.main-button {
+  color: #2b2b2b;
+  width: fit-content;
+  background: #fff;
+  border: 1px solid #fff;
+  margin-top: 32px;
+}
+
+.careers-team-modal__link.main-button:hover svg path {
+  stroke: #fff;
+}
+
+.careers-team-modal__link.main-button:hover {
+  background: #2b2b2b;
+  color: #fff;
+}
+
+.careers-team-modal .team-modal__subtitle {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.careers-list {
+  padding-left: 0;
+  list-style: none;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.careers-section-title {
+  color: #2b2b2b;
+  font-family: "Test Newzald", sans-serif;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 130%; /* 41.6px */
+  letter-spacing: -0.4px;
+  display: block;
+  margin-bottom: 32px;
+}
+
+.process-slider.process-slider-top .process-title {
+  margin-top: 0;
+}
+
+.process-slider.process-slider-top .process-card {
+  padding: 73px 32px;
+}
+
+/* contact-page styles */
+.contact-button.main-button {
+  color: #2b2b2b;
+  background: transparent;
+  border: 1px solid rgba(113, 113, 113, 0.25);
+  width: fit-content;
+  border-radius: 0;
+  cursor: pointer;
+}
+.contact-button.main-button:hover {
+  color: #fff;
+  background: #2b2b2b;
+}
+
+.contact-button.main-button:hover svg path {
+  stroke: #fff;
+}
+
+.contact-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 32px;
+}
+
+.contact-page-text {
+  color: #2b2b2b;
+  font-family: "Public Sans", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 140%;
+  letter-spacing: -0.4px;
+  opacity: 0.8;
+  max-width: 685px;
+}
+
+.contact-page-title {
+  color: #2b2b2b;
+  font-family: "Test Newzald", sans-serif;
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 90%;
+  display: block;
+  margin: 84px 0 32px 0;
+}
+
+.contact-page-header {
+  max-width: 1440px;
+  margin: 0 auto 114px auto;
+  padding: 0 20px;
+}
+
+.contact-page-media-wrapper {
+  aspect-ratio: 690 / 564;
+  display: flex;
+  width: 100%;
+}
+
+.contact-page-info-image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.contact-page-wrapper {
+  overflow: hidden;
+}
+
+.contact-page-get-link {
+  color: #2b2b2b !important;
+  font-family: "Public Sans", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 140%; /* 22.4px */
+  letter-spacing: -0.4px;
+  opacity: 0.8;
+  display: block;
+  margin-top: 4px;
+  border-bottom: 1px solid #2b2b2b;
+  width: fit-content;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.contact-page-info {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.contact-page-hb-info__link.hb-info__link {
+  color: #2b2b2b !important;
+  color: #2b2b2b;
+  font-family: "Test Newzald", sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 124%;
+  letter-spacing: -0.4px;
+  text-decoration: none;
+}
+
+.contact-page-hb-info__item.hb-info__item {
+  border-bottom: 1px solid rgba(43, 43, 43, 0.25);
+  width: 100%;
+}
+
+.contact-page-get-link:hover {
+  border-color: transparent;
+}
+
+.contact-hb-info__list.hb-info__list {
+  max-width: 400px;
+}
+
+.contact-page-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+}
+
+.contact-page-info-block {
+  padding-left: 118px;
+}
+
+.contact-page {
+  padding-bottom: 160px;
+}
+
+.contact-select option {
+  background: #2b2b2b !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+}
+
+.contact-input::placeholder,
+.contact-form-textarea::placeholder {
+  color: #fff;
+  font-family: "Public Sans", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: -0.4px;
+  opacity: 0.75;
+}
+
+.contact-input,
+.contact-form-textarea {
+  color: #fff !important;
+  font-family: "Public Sans", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 175%;
+  letter-spacing: -0.4px;
+  padding: 16px 24px !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  background: transparent;
+  width: 100%;
+  border-radius: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  transition: all 0.3s ease;
+}
+
+.contact-input:focus,
+.contact-form-textarea:focus,
+.contact-input:focus-within,
+.contact-form-textarea:focus-within {
+  border-color: #fff !important;
+}
+
+.contact-input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(2);
+  opacity: 0.75;
+  cursor: pointer;
+}
+
+.contact-input[type="date"] {
+  margin-top: 14px;
+}
+
+.contact-select-wrapper-one {
+  margin-bottom: 14px;
+}
+
+.wpcf7-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+.contact-form-textarea {
+  height: 136px;
+  resize: none;
+}
+
+form.wpcf7-form p {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  width: 100%;
+}
+
+.team-modal__content.contact-team-modal__content {
+  margin-top: 32px;
+}
+form.wpcf7-form br {
+  display: none !important;
+}
+
+.contact-form-button.main-button {
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background-color: transparent;
+  width: fit-content;
+  border-radius: 0;
+  cursor: pointer;
+  line-height: 140% !important;
+  padding: 14px 24px !important;
+  margin-top: 32px !important;
+}
+.contact-form-button.main-button span {
+  transition: all 0.3s ease;
+}
+
+.team-modal__content.contact-team-modal__content span {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form-button.main-button:hover span {
+  color: #2b2b2b !important;
+}
+
+.contact-form-button.main-button:hover svg path {
+  stroke: #2b2b2b !important;
+}
+.contact-form-button.main-button:hover {
+  background: #fff;
+  border-color: #fff;
+}
+
+.file-drop {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  background: #2b2b2b;
+  padding: 40px 16px 24px;
+  text-align: center;
+  color: #fff !important;
+  margin-top: 11px;
+  height: 240px;
+}
+
+.file-drop__lead {
+  color: #fff !important;
+  font-family: "Public Sans", sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 175%;
+  letter-spacing: -0.4px;
+  position: absolute;
+  top: 16px;
+  text-align: left;
+  color: #cfcfcf;
+  width: 100%;
+  padding: 0 24px;
+  left: 0;
+  opacity: 0.75;
+}
+
+.file-drop .file-input[type="file"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file-drop__label {
+  display: flex !important;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px !important;
+  cursor: pointer;
+  color: #fff;
+  outline: none;
+  display: flex;
+  margin-top: 68px !important;
+  justify-content: baseline;
+  justify-content: center;
+}
+
+.file-drop__icon svg {
+  display: block;
+}
+.file-drop__text {
+  color: #fff;
+  text-align: center;
+  font-family: "Public Sans", sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 125%; /* 15px */
+  letter-spacing: -0.4px;
+}
+
+.file-drop:has(.file-input:focus-visible) {
+  outline: 2px dashed #fff;
+  outline-offset: -10px;
+}
+
+.file-drop__meta {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #ccc;
+  text-align: center;
+  min-height: 18px;
+}
+.file-drop__meta strong {
+  color: #fff;
+  font-weight: 500;
+}
+
+.file-drop .file-input[type="file"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.file-drop__label,
+.file-drop__meta {
+  position: relative;
+  z-index: 2;
+}
+
+.file-drop .file-input[type="file"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.file-drop.has-file .file-drop__text {
+  visibility: hidden;
+}
+.file-drop__meta {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #fff;
+  text-align: center;
+  min-height: 18px;
+}
+.file-drop__meta .size {
+  color: #ccc;
+}
+
+.file-drop.has-file .file-drop__text {
+  white-space: normal;
+  word-break: break-word;
+}
+
+.file-drop .file-input[type="file"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.contact-input[type="date"]::placeholder {
+  color: rgb(124, 124, 124) !important;
+}
+
+.contact-select-wrapper .contact-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.contact-select-wrapper {
+  position: relative;
+  margin-top: 14px;
+}
+
+.contact-select-wrapper svg {
+  position: absolute;
+  right: 24px;
+  top: 18px;
+  height: 24px;
+  width: 24px;
+  z-index: 1;
+  pointer-events: none;
+}
+.contact-team-modal__mount .team-modal__title {
+  margin-bottom: 16px !important;
+}
+
+.contact-label-first {
+  margin-top: 0 !important;
+}
+
+.policy-page-content-wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+
+.policy-page-content {
+    max-width: 572px;
+  margin-right: auto;
+color: rgba(43, 43, 43, 0.8);
+font-family: "Public Sans" sans-serif;
+font-size: 16px;
+font-style: normal;
+font-weight: 300;
+line-height: 140%;
+letter-spacing: -0.4px;
+display: flex;
+flex-direction: column;
+width: 100%;
+}
+
+.policy-page-content p{
+  margin: 0;
+}
+
+.policy-page-content strong, .policy-page-content b {
+  font-weight: 500;
+  margin: 0;
+}
+
+.policy-page-wrapper {
+  max-width: 1440px;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+.policy-page-title {
+  color: #2B2B2B;
+font-family: "Test Newzald", sans-serif;
+font-size: 64px;
+font-style: normal;
+font-weight: 400;
+line-height: 90%;
+margin: 50px 0;
+}
+
+.policy-page-subtitle{
+  margin-bottom: 24px;
+  color: #2B2B2B;
+font-family: "Test Newzald", sans-serif;
+font-size: 18px;
+font-style: normal;
+font-weight: 400;
+line-height: 110%;
+max-width: 927px;
+}
+
+.policy-page{
+  padding-bottom: 150px;
+  overflow: hidden;
+}
+
 @media (max-width: 992px) {
+  .policy-page-wrapper{
+    padding: 0 24px;
+  }
+  .policy-page{
+  padding-bottom: 112px;
+}
+
+.policy-page-title{
+  margin: 80px 0 32px 0;
+  font-size: 42px;
+  line-height: 100%;
+}
+
+  .contact-team-modal__mount .team-modal__title {
+    font-size: 28px !important;
+    margin-bottom: 16px !important;
+  }
+  form.wpcf7-form p,
+  .contact-team-modal__content.team-modal__content span {
+    font-size: 16px !important;
+  }
+  .contact-buttons {
+    flex-direction: column;
+    margin-top: 16px;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .contact-page-hb-info__link.hb-info__link {
+    font-size: 18px !important;
+    padding-bottom: 16px !important;
+  }
+  .contact-hb-info__list.hb-info__list {
+    max-width: 100%;
+    gap: 16px;
+  }
+  .contact-page-title {
+    font-size: 42px;
+    line-height: 100%;
+    margin-top: 80px;
+    margin-bottom: 16px;
+  }
+  .contact-page-info {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 40px;
+    padding: 0 24px;
+  }
+  .contact-page-info-block {
+    padding: 0;
+    width: 100%;
+  }
+
+  .contact-page-header {
+    padding: 0 24px;
+    margin-bottom: 40px;
+  }
+
+  .contact-page {
+    padding-bottom: 112px;
+  }
+
+  .process-slider.process-slider-top .process-card {
+    padding: 88px 32px;
+  }
+  .process-slider.process-slider-top .process-title {
+    font-size: 22px;
+  }
+
+  .careers-list {
+    gap: 32px;
+  }
+
+  .one-column-image-main-sec .one-column-image-wrapper {
+    padding: 0;
+  }
+  .one-column-image-main-sec .one-column-media-wrapper {
+    aspect-ratio: 430/242;
+  }
+  .job-item__row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .careers-team-modal .team-modal__title {
+    font-size: 28px;
+  }
+
+  .careers-section-title {
+    margin-bottom: 24px;
+    font-size: 28px;
+    line-height: 140%;
+  }
+
+  .careers-section {
+    padding: 0;
+  }
+
+  .careers-section-wrapper {
+    padding: 80px 24px;
+  }
+
+  .job-item__cta.main-button {
+    margin: 8px auto 0 0;
+  }
+
+  .job-item__tags {
+    font-size: 16px;
+  }
+
+  .careers-team-modal .team-modal__subtitle {
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+
+  .team-modal__content h3,
+  .team-modal__content h5,
+  .team-modal__content h4 {
+    font-size: 16px;
+  }
+
+  .slide-text.slide-text-testimonials {
+    font-size: 24px;
+  }
+
+  .careers-black {
+    padding: 0;
+  }
+
+  .careers-black-wrapper {
+    padding: 114px 24px;
+  }
+
+  .careers-black-title {
+    line-height: 125%;
+    margin-bottom: 16px;
+  }
+
+  .careers-black-text {
+    font-weight: 400;
+    line-height: 125%;
+  }
+
+  .careers-black-top {
+    margin-bottom: 32px;
+  }
+
+  .one-column-image-main-sec {
+    padding-bottom: 0;
+  }
   .process-slider {
     padding: 0 0 80px 24px;
+  }
+
+  .process-slider.process-slider-top {
+    padding-top: 80px !important;
   }
 
   .related-projects {
