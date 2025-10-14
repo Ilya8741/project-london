@@ -7,7 +7,7 @@
  */
 ?>
 
-<section class="team-section">
+<section class="team-section" id="team-section">
     <div class="team-section-wrapper">
         <div class="team-section-header">
             <div class="team-section-header-left" data-aos="fade-right" data-aos-offset="200">
@@ -109,6 +109,11 @@
     </div>
 </section>
 
+<style>
+    html {
+        scroll-behavior: smooth !important;  
+    }
+</style>
 
 <script>
     (function() {

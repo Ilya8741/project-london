@@ -100,6 +100,12 @@
   </div>
 </section>
 
+<style>
+    html {
+        scroll-behavior: smooth !important;  
+    }
+</style>
+
 <script>
 (function() {
   const root = document.querySelector('.careers-section');
