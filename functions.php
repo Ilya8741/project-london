@@ -9,7 +9,7 @@
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '2.3.8' );
+	define( '_S_VERSION', '2.3.9' );
 }
 
 /**
