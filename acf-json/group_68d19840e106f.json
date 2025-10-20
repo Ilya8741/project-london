@@ -103,6 +103,27 @@
                             "placeholder": "",
                             "prepend": "",
                             "append": ""
+                        },
+                        {
+                            "key": "field_68f6036a54b1e",
+                            "label": "Hero video main",
+                            "name": "hero_video_main",
+                            "aria-label": "",
+                            "type": "file",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array",
+                            "library": "all",
+                            "min_size": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "allow_in_bindings": 0
                         }
                     ],
                     "min": "",
@@ -260,6 +281,27 @@
                             "ui": 0,
                             "ui_on_text": "",
                             "ui_off_text": ""
+                        },
+                        {
+                            "key": "field_68f5fb142c411",
+                            "label": "Large title",
+                            "name": "large_title",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 0,
+                            "allow_in_bindings": 0,
+                            "ui": 0,
+                            "ui_on_text": "",
+                            "ui_off_text": ""
                         }
                     ],
                     "min": "",
@@ -398,6 +440,27 @@
                             "mime_types": "",
                             "allow_in_bindings": 0,
                             "preview_size": "medium"
+                        },
+                        {
+                            "key": "field_68f5fb2f2c412",
+                            "label": "Large title",
+                            "name": "large_title",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 0,
+                            "allow_in_bindings": 0,
+                            "ui": 0,
+                            "ui_on_text": "",
+                            "ui_off_text": ""
                         }
                     ],
                     "min": "",
@@ -662,7 +725,7 @@
                         {
                             "key": "field_68d2b95b8656e",
                             "label": "Item 2 link",
-                            "name": "item_2_link",
+                            "name": "item2_link",
                             "aria-label": "",
                             "type": "url",
                             "instructions": "",
@@ -1090,6 +1153,27 @@
                             "key": "field_68d7e6e9bfc39",
                             "label": "Duo section",
                             "name": "duo-section",
+                            "aria-label": "",
+                            "type": "true_false",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "message": "",
+                            "default_value": 0,
+                            "allow_in_bindings": 0,
+                            "ui": 0,
+                            "ui_on_text": "",
+                            "ui_off_text": ""
+                        },
+                        {
+                            "key": "field_68f5fb6a2c413",
+                            "label": "Medium width",
+                            "name": "medium_width",
                             "aria-label": "",
                             "type": "true_false",
                             "instructions": "",
@@ -3645,5 +3729,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1760448637
+    "modified": 1760953384
 }

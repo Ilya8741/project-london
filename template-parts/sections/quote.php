@@ -1,4 +1,4 @@
-<div class="quote-section <?php if (get_sub_field('spacing')): ?>spacing<?php endif; ?> <?php if (get_sub_field('medium_width')): ?> quote-medium-width<?php endif; ?>" data-aos="fade-right">
+<div class="quote-section <?php if (get_sub_field('spacing')): ?>spacing<?php endif; ?> <?php if (get_sub_field('medium_width')): ?> quote-medium-width<?php endif; ?>  <?php if (get_sub_field('large_title')): ?> quote-large-title<?php endif; ?>" data-aos="fade-right">
     <div class="quote-wrapper main-container">
             <?php if (get_sub_field('quote_subtitle')): ?>
                 <span class="quote-subtitle">

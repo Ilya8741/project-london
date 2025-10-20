@@ -57,7 +57,7 @@
       decSep = (after === 3 && /\d{3}$/.test(numStr)) ? null : ',';
     }
 
-    const locale = decSep === ',' ? 'de-DE' : 'en-GB'; 
+    const locale = decSep === ',' ? 'de-DE' : 'en-GB';
     return { decSep, locale };
   }
 
@@ -67,7 +67,7 @@
       const reDec = new RegExp('\\' + decSep + '(?=\\d+$)');
       s = s.replace(reDec, 'D');    
     }
-    s = s.replace(/[.,](?=\d{3}\b)/g, ''); 
+    s = s.replace(/[.,](?=\d{3}\b)/g, '');
     s = s.replace(/[.,](?=.*[.,]\d+$)/g, '');
     s = s.replace('D', '.');
     return parseFloat(s.replace(/[^\d.-]/g, '')) || 0;
@@ -93,16 +93,18 @@
     const { prefix, num, suffix } = splitParts(raw);
     const { decSep, locale } = detectFormat(num);
 
-    const target    = toFloat(num, decSep);
-    const decsAttr  = el.dataset.decimals ? parseInt(el.dataset.decimals, 10) : null;
-    const decs      = Number.isInteger(decsAttr) ? decsAttr : decimalsCount(num);
-    const dur       = parseFloat(el.dataset.duration || '1.2'); 
-    const from      = parseFloat(el.dataset.from || '0');
+    const target   = toFloat(num, decSep);
+    const decsAttr = el.dataset.decimals ? parseInt(el.dataset.decimals, 10) : null;
+    const decs     = Number.isInteger(decsAttr) ? decsAttr : decimalsCount(num);
+    const dur      = parseFloat(el.dataset.duration || '1.2');
+
+    const hasFromAttr = el.hasAttribute('data-from');
+    const from = hasFromAttr ? parseFloat(el.dataset.from || '0') : (target / 2);
 
     if (!window.gsap) {
       const start = performance.now();
       (function tick(now) {
-        const p = Math.min(1, (now - start) / (dur * 2000));
+        const p = Math.min(1, (now - start) / (dur * 1200));
         const val = from + (target - from) * p;
         el.textContent = prefix + format(val, locale, decs) + suffix;
         if (p < 1) requestAnimationFrame(tick);
