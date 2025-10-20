@@ -4,9 +4,9 @@
         data-aos-duration="600"
         data-aos-delay="100"
         data-aos-easing="ease-out">
-        <h2 class="careers-slider-title">
+        <div class="careers-slider-title">
             <?php the_sub_field('title'); ?>
-        </h2>
+        </div>
     </div>
 
     <div class="careers-slider-wrapper"
