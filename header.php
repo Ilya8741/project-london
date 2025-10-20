@@ -151,8 +151,6 @@ ensureStartAtTop(true);
 })();
 </script>
 
-
-
 <?php endif; ?>
 
 	<div id="page" class="site">
@@ -271,13 +269,7 @@ ensureStartAtTop(true);
 										</div>
 									</nav>
 								<?php endif; ?>
-								<!-- <?php if ($main_image): ?>
-									<img
-										class="hb-media__imgage-mobile"
-										src="<?php echo esc_url($main_image['url']); ?>"
-										alt="<?php echo esc_attr($main_image['alt'] ?? ''); ?>"
-										loading="lazy" />
-								<?php endif; ?> -->
+							
 							</div>
 							<div class="info-with-button">
 
