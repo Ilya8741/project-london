@@ -32,7 +32,7 @@ if (!empty($manual_ids)) {
     'post_status'         => 'publish',
     'posts_per_page'      => -1,
     'orderby'             => $orderby,
-    'order'               => 'ASC',
+    'order'               => 'DESC',
     'ignore_sticky_posts' => true,
   ];
   if (!empty($exclude_ids)) {
