@@ -2498,7 +2498,8 @@ body.pl-lock {
   z-index: 1000;
   top: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
+  overscroll-behavior: contain;
   right: 0;
   visibility: hidden;
   pointer-events: none;
@@ -2530,11 +2531,14 @@ body.pl-lock {
   background: #2b2b2b;
   color: #fff;
   padding: 64px 20px 64px 64px;
-  overflow: auto;
   display: flex;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  height: 100%;
   transform: translateX(100%);
-  transition: all 0.6s ease;
+  transition: transform .6s ease, opacity .6s ease;
   opacity: 0;
+
 }
 
 .team-modal.is-open .team-modal__dialog {
