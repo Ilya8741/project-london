@@ -1,13 +1,16 @@
 <div class="careers-slider">
-    <div class="careers-slider-title-wrapper"
-        data-aos="fade-right"
-        data-aos-duration="600"
-        data-aos-delay="100"
-        data-aos-easing="ease-out">
-        <div class="careers-slider-title">
-            <?php the_sub_field('title'); ?>
-        </div>
+ <?php if (get_sub_field('title')): ?>
+  <div class="careers-slider-title-wrapper"
+       data-aos="fade-right"
+       data-aos-duration="600"
+       data-aos-delay="100"
+       data-aos-easing="ease-out">
+    <div class="careers-slider-title">
+      <?php the_sub_field('title'); ?>
     </div>
+  </div>
+<?php endif; ?>
+
 
     <div class="careers-slider-wrapper"
         data-aos="fade-up"

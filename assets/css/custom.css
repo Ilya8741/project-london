@@ -1104,6 +1104,10 @@ body.pl-lock {
   margin: 0 0 0 auto;
 }
 
+.hero-section.hero-section-no-home {
+    transform: translateY(0) !important;
+}
+
 .hero-section-image-wrapper video {
   aspect-ratio: 16/9;
   width: 100%;
@@ -1614,6 +1618,10 @@ body.pl-lock {
   padding-top: 160px;
   overflow: hidden;
   position: relative;
+}
+
+.quote-section.quote-section-top-none-spacing {
+  padding-top: 0 !important;
 }
 
 .quote-section .team-modal {

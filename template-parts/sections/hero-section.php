@@ -1,4 +1,4 @@
-<div class="hero-section">
+<div class="hero-section <?php if (get_sub_field('no_home')): ?> hero-section-no-home <?php endif; ?>">
   <div class="hero-section-wrapper">
     <div class="main-container">
       <h1 class="hero-section-title">
