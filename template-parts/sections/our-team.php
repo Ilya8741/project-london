@@ -18,27 +18,56 @@
                     <?php the_sub_field('title'); ?>
                 </h2>
             </div>
-            <?php if (get_sub_field('button_text')): ?>
-                <a href="<?php the_sub_field('button_url'); ?>" class="team-section-button main-button" data-aos="fade-left" data-aos-offset="200">
-                    <span><?php the_sub_field('button_text'); ?></span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+
+            <?php
+            $header_btn_text   = get_sub_field('button_text');          // текст кнопки
+            $header_popup_title = get_sub_field('popup_title');          // заголовок в модалке
+            $header_form_raw   = get_sub_field('contact_form', false, false); // WYSIWYG с шорткодом
+            $header_tpl_id     = 'team-contact-modal';
+            ?>
+
+            <?php if ($header_btn_text): ?>
+                <button type="button"
+                    class="team-section-button main-button"
+                    data-aos="fade-left"
+                    data-aos-offset="200"
+                    data-modal="#<?php echo esc_attr($header_tpl_id); ?>">
+                    <span><?php echo esc_html($header_btn_text); ?></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                         <path d="M1 1H13V13" stroke="#717171" stroke-width="0.5" stroke-linejoin="round" />
                         <path d="M1 13L13 1" stroke="#717171" stroke-width="0.5" stroke-linejoin="round" />
                     </svg>
-                </a>
+                </button>
+
+                <div id="<?php echo esc_attr($header_tpl_id); ?>" class="team-modal-template contact-team-modal-template" hidden>
+                    <div class="team-modal__inner">
+                        <div class="team-modal__text">
+                            <?php if ($header_popup_title): ?>
+                                <h3 class="team-modal__title"><?php echo esc_html($header_popup_title); ?></h3>
+                            <?php endif; ?>
+
+                            <?php if ($header_form_raw): ?>
+                                <div class="team-modal__content contact-team-modal__content">
+                                    <?php echo do_shortcode(shortcode_unautop($header_form_raw)); ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
             <?php endif; ?>
         </div>
+
         <div class="team-grid">
             <?php if (have_rows('our_team_repeater')): ?>
                 <?php $i = 0;
                 while (have_rows('our_team_repeater')): the_row();
                     $i++;
-                    $img          = get_sub_field('image');           // array
-                    $name         = get_sub_field('name');            // string
-                    $job          = get_sub_field('job_title');       // string
-                    $content      = get_sub_field('content');         // HTML
-                    $linkedin_url = get_sub_field('linkedin_url');    // string
-                    $linkedin_txt = get_sub_field('linkedin_text');   // string
+                    $img          = get_sub_field('image');
+                    $name         = get_sub_field('name');
+                    $job          = get_sub_field('job_title');
+                    $content      = get_sub_field('content');
+                    $linkedin_url = get_sub_field('linkedin_url');
+                    $linkedin_txt = get_sub_field('linkedin_text');
                     $tpl_id       = 'team-modal-' . $i;
                 ?>
                     <button class="team-card" data-aos="fade-up" data-aos-offset="200" type="button" data-modal="#<?php echo esc_attr($tpl_id); ?>">
@@ -61,7 +90,6 @@
                             <?php if ($name): ?><span class="team-card__name"><?php echo esc_html($name); ?></span><?php endif; ?>
                             <?php if ($job):  ?><span class="team-card__job"><?php echo esc_html($job); ?></span><?php endif; ?>
                         </span>
-
                     </button>
 
                     <div id="<?php echo esc_attr($tpl_id); ?>" class="team-modal-template" hidden>
@@ -82,7 +110,7 @@
                                 <?php if ($linkedin_url && $linkedin_txt): ?>
                                     <a class="team-modal__link main-button" href="<?php echo esc_url($linkedin_url); ?>" target="_blank" rel="noopener">
                                         <?php echo esc_html($linkedin_txt ?: 'Connect on LinkedIn'); ?>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none" aria-hidden="true">
                                             <path d="M1.43945 1H17.8966V17" stroke="white" stroke-width="1.10345" stroke-linecap="round" stroke-linejoin="round" />
                                             <path d="M1.43945 17L17.8966 1" stroke="white" stroke-width="1.10345" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
@@ -95,6 +123,7 @@
             <?php endif; ?>
         </div>
     </div>
+
     <div class="team-modal" aria-hidden="true">
         <div class="team-modal__overlay" data-close></div>
         <div class="team-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="team-modal-title">
@@ -109,9 +138,10 @@
     </div>
 </section>
 
+
 <style>
     html {
-        scroll-behavior: smooth !important;  
+        scroll-behavior: smooth !important;
     }
 </style>
 
@@ -129,9 +159,7 @@
         function openModalFromTemplate(selector) {
             const tpl = root.querySelector(selector);
             if (!tpl) return;
-
             mount.innerHTML = tpl.innerHTML;
-
             modal.classList.add('is-open');
             modal.setAttribute('aria-hidden', 'false');
             html.classList.add('is-locked');
@@ -147,30 +175,25 @@
         }
 
         root.addEventListener('click', function(e) {
-            const btn = e.target.closest('.team-card');
-            if (!btn) return;
-            const sel = btn.getAttribute('data-modal');
+            const trigger = e.target.closest('[data-modal]');
+            if (!trigger || !root.contains(trigger)) return;
+            e.preventDefault();
+            const sel = trigger.getAttribute('data-modal');
             if (sel) openModalFromTemplate(sel);
         });
 
         closeBtns.forEach(b => b.addEventListener('click', closeModal));
         overlay.addEventListener('click', closeModal);
-
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && modal.classList.contains('is-open')) {
-                closeModal();
-            }
+            if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
         });
 
         let lastFocused = null;
 
         function trapFocus(container) {
             lastFocused = document.activeElement;
-            const focusables = container.querySelectorAll(
-                'a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
-            );
+            const focusables = container.querySelectorAll('a, button, input, textarea, select, [tabindex]:not([tabindex="-1"])');
             if (focusables.length) focusables[0].focus();
-
             container.addEventListener('keydown', onTab);
 
             function onTab(e) {

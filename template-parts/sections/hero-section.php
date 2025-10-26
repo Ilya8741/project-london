@@ -58,8 +58,22 @@
   function openFullscreenVideo(url, type) {
     if (!url) return;
 
-    var v = document.createElement('video');
+    var overlay = document.createElement('div');
+    Object.assign(overlay.style, {
+      position: 'fixed',
+      inset: '0',
+      background: '#000',
+      zIndex: '2147483647',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      transform: 'translateY(-10vh)',
+      opacity: '0',
+      transition: 'transform 1.5s ease, opacity 1.5s ease',
+      willChange: 'transform, opacity'
+    });
 
+    var v = document.createElement('video');
     if (type) {
       var srcEl = document.createElement('source');
       srcEl.src = url;
@@ -68,31 +82,63 @@
     } else {
       v.src = url;
     }
-
     v.controls = true;
     v.autoplay = true;
     v.muted = false;
-    v.playsInline = false;
+    v.playsInline = true;
     v.preload = 'auto';
-    v.style.position = 'fixed';
-    v.style.inset = '0';
-    v.style.width = '100%';
-    v.style.height = '100%';
-    v.style.objectFit = 'contain';
-    v.style.background = '#000';
-    v.style.zIndex = '2147483647';
-    document.body.appendChild(v);
+    Object.assign(v.style, {
+      width: '100%',
+      height: '100%',
+      objectFit: 'contain',
+      visibility: 'hidden'
+    });
+
+    var showVideoOnce = function () {
+      v.style.visibility = 'visible';
+      v.removeEventListener('loadeddata', showVideoOnce);
+      v.removeEventListener('canplay', showVideoOnce);
+    };
+    v.addEventListener('loadeddata', showVideoOnce);
+    v.addEventListener('canplay', showVideoOnce);
+
+    overlay.appendChild(v);
+    document.body.appendChild(overlay);
+
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        overlay.style.transform = 'translateY(0)';
+        overlay.style.opacity = '1';
+      });
+    });
+
+    var wentFullscreen = false;
+    function requestFS() {
+      if (wentFullscreen) return;
+      wentFullscreen = true;
+      var reqFS = v.requestFullscreen || v.webkitRequestFullscreen || v.msRequestFullscreen;
+      if (reqFS) {
+        try { reqFS.call(v); } catch (e) {}
+      } else if (v.webkitEnterFullscreen) {
+        try { v.webkitEnterFullscreen(); } catch (e) {}
+      }
+    }
+    overlay.addEventListener('transitionend', function (e) {
+      if (e.propertyName === 'opacity' || e.propertyName === 'transform') {
+        requestFS();
+      }
+    }, { once: true });
 
     function cleanup() {
       try { v.pause(); } catch(e){}
-      v.remove();
+      overlay.remove();
       document.removeEventListener('keydown', onEsc);
       document.removeEventListener('webkitfullscreenchange', onFsChange, true);
       document.removeEventListener('fullscreenchange', onFsChange, true);
     }
     function onEsc(e) {
       if (e.key === 'Escape') {
-        if (document.fullscreenElement) document.exitFullscreen();
+        if (document.fullscreenElement) document.exitFullscreen().catch(function(){});
         else cleanup();
       }
     }
@@ -101,29 +147,18 @@
         cleanup();
       }
     }
-
     document.addEventListener('keydown', onEsc);
     document.addEventListener('fullscreenchange', onFsChange, true);
     document.addEventListener('webkitfullscreenchange', onFsChange, true);
 
-    var reqFS = v.requestFullscreen || v.webkitRequestFullscreen || v.msRequestFullscreen;
-    if (reqFS) {
-      try { reqFS.call(v); } catch(e){}
-    } else if (v.webkitEnterFullscreen) {
-      try { v.webkitEnterFullscreen(); } catch(e){}
-    }
-
-    v.play().catch(function(){ /* ignore */ });
+    v.play().catch(function(){});
   }
 
   trigger.addEventListener('click', function(e){
     e.preventDefault();
-
     var fsUrl  = trigger.getAttribute('data-fs-src') || '';
     var fsType = trigger.getAttribute('data-fs-type') || '';
-
     if (!fsUrl) fsUrl = getVideoSrc(inlineVideo);
-
     openFullscreenVideo(fsUrl, fsType);
   });
 })();

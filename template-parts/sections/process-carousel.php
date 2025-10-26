@@ -26,21 +26,45 @@ if ($items && is_array($items) && count($items)) :
             </div>
 
         </div>
+        <div class="process-slider-nav">
+            <div class="process-slider-prev process-slider-nav-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <path d="M8.73535 17.1475L0.250071 8.66218L8.73535 0.176898" stroke="#717171" stroke-width="0.5" stroke-linejoin="round" />
+                    <path d="M17.2206 8.66218L0.250071 8.66218" stroke="#717171" stroke-width="0.5" stroke-linejoin="round" />
+                </svg>
+            </div>
+            <div class="process-slider-next process-slider-nav-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                    <path d="M8.48535 0.176758L16.9706 8.66204L8.48535 17.1473" stroke="#717171" stroke-width="0.5" stroke-linejoin="round" />
+                    <path d="M7.03335e-05 8.66204H16.9706" stroke="#717171" stroke-width="0.5" stroke-linejoin="round" />
+                </svg>
+            </div>
+        </div>
     </section>
 
     <script>
-       document.addEventListener('DOMContentLoaded', () => {
-        const el = document.querySelector('.process-swiper');
-        if (!el) return;
+        document.addEventListener('DOMContentLoaded', () => {
+            const el = document.querySelector('.process-swiper');
+            if (!el) return;
 
             const swiper = new Swiper(el, {
                 loop: true,
                 speed: 600,
                 spaceBetween: 8,
-                slidesPerView: 1.1, 
+                slidesPerView: 1.1,
+                navigation: {
+                    nextEl: '.process-slider-next',
+                    prevEl: '.process-slider-prev',
+                },
                 breakpoints: {
-                768: { spaceBetween: 20,slidesPerView: 2.1,  },
-                992: { spaceBetween: 20,slidesPerView: 3.1,  }
+                    768: {
+                        spaceBetween: 20,
+                        slidesPerView: 2.1,
+                    },
+                    992: {
+                        spaceBetween: 20,
+                        slidesPerView: 3.1,
+                    }
                 }
             });
         });
@@ -92,20 +116,19 @@ if ($items && is_array($items) && count($items)) :
         }
 
         .process-swiper .swiper-wrapper {
-        align-items: stretch; 
+            align-items: stretch;
         }
 
         .process-swiper .swiper-slide {
-        display: flex;
-        height: auto;
+            display: flex;
+            height: auto;
         }
 
         .process-card {
-        display: flex;
-        flex-direction: column;
-            height: 100%;             
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
-
     </style>
 <?php
 endif;

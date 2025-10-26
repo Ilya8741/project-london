@@ -104,6 +104,12 @@ body {
   margin-left: auto;
 }
 
+.site-footer-header-links-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
 .footer-buttons {
   display: flex;
   gap: 8px;
@@ -119,6 +125,8 @@ body {
   font-weight: 300;
   width: fit-content;
   border: 1px solid #fff;
+  border-radius: 0 !important;
+  cursor: pointer;
 }
 
 .footer-white-main-button.main-button:hover {
@@ -464,7 +472,7 @@ html {
 }
 
 .header-burger-menu-wrapper {
-  padding: 85px 20px;
+  padding: 40px 20px;
   max-width: 1440px;
   margin: 0 auto;
 }
@@ -642,9 +650,9 @@ body.pl-lock {
 
 .pl-logo-wrap {
   position: relative;
-  width: 390px;
-  height: 390px;
-  margin: 0 auto 85px;
+  width: 310px;
+  height: 310px;
+  margin: 0 auto 45px;
 }
 
 .pl-logo {
@@ -660,8 +668,8 @@ body.pl-lock {
   position: absolute;
   inset: 50% auto auto 50%;
   transform: translate(-50%, -50%);
-  width: 390px;
-  height: 390px;
+  width: 310px;
+  height: 310px;
 }
 
 .pl-ring__bg {
@@ -698,6 +706,9 @@ body.pl-lock {
 }
 
 @media (max-width: 992px) {
+  .site-footer-header-links-wrapper {
+    gap: 16px;
+  }
   .hb-info__item {
     padding-bottom: 8px;
   }
@@ -710,8 +721,8 @@ body.pl-lock {
   }
 
   .pl-logo-wrap {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     margin: 0 auto 40px;
   }
 
@@ -721,8 +732,8 @@ body.pl-lock {
   }
 
   .pl-ring {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
   }
 }
 
@@ -2644,6 +2655,8 @@ html.is-locked {
   color: #2b2b2b;
   background: transparent;
   white-space: nowrap;
+  border-radius: 0 !important;
+  cursor: pointer;
   transition: all 0.3s ease !important;
 }
 
@@ -4377,6 +4390,38 @@ html.is-locked {
   padding: 0 0 160px 20px;
 }
 
+.process-slider-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 44px;
+  margin-right: auto;
+}
+
+.process-slider-nav-button {
+  border: 1px solid rgba(113, 113, 113, 0.25);
+  background: transparent;
+  transition: all .3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 45px;
+  width: 65px;
+  cursor: pointer;
+}
+
+.process-slider-nav-button svg path {
+  transition: all 0.3s ease;
+}
+
+.process-slider-nav-button:hover {
+  background: #2b2b2b;
+}
+
+.process-slider-nav-button:hover svg path {
+  stroke: #fff;
+}
+
 .one-column-image-main-sec {
   padding-bottom: 50px;
 }
@@ -4635,7 +4680,7 @@ html.is-locked {
 }
 
 /* contact-page styles */
-.contact-button.main-button {
+.contact-button.main-button, .contact-button-link.main-button {
   color: #2b2b2b;
   background: transparent;
   border: 1px solid rgba(113, 113, 113, 0.25);
@@ -4643,12 +4688,12 @@ html.is-locked {
   border-radius: 0;
   cursor: pointer;
 }
-.contact-button.main-button:hover {
+.contact-button.main-button:hover, .contact-button-link.main-button:hover {
   color: #fff;
   background: #2b2b2b;
 }
 
-.contact-button.main-button:hover svg path {
+.contact-button.main-button:hover svg path , .contact-button-link.main-button:hover svg path{
   stroke: #fff;
 }
 
@@ -4873,9 +4918,14 @@ form.wpcf7-form br {
   color: #2b2b2b !important;
 }
 
+.contact-form-button.main-button:hover {
+   color: #2b2b2b !important;
+}
+
 .contact-form-button.main-button:hover svg path {
   stroke: #2b2b2b !important;
 }
+
 .contact-form-button.main-button:hover {
   background: #fff;
   border-color: #fff;
@@ -5124,6 +5174,9 @@ form.wpcf7-form br {
 }
 
 @media (max-width: 992px) {
+  .process-slider-nav {
+    margin-top: 32px !important;
+  }
   .policy-page-content ul , .policy-page-content ol{
     padding-left: 20px;
   }

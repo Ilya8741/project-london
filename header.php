@@ -172,6 +172,7 @@ ensureStartAtTop(true);
 						]
 					);
 					?>
+					
 					</a>
 				<?php endif; ?>
 				<?php if ($image1 = get_field('dark_logo', 'header_options')) : ?>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 $shortcode = get_sub_field('shortcodes');
 ?>
 
@@ -11,16 +11,25 @@ $shortcode = get_sub_field('shortcodes');
       <?php the_sub_field('instafeed_text'); ?>
       <?php if (get_sub_field('instafeed_button_text')): ?>
         <span><?php the_sub_field('instafeed_follow_text'); ?></span>
-        <a href="<?php the_sub_field('instafeed_button_url'); ?>" class="">
-          <?php the_sub_field('instafeed_button_text'); ?>
+        <?php
+        $insta_text = get_sub_field('instafeed_button_text') ?: 'Follow us on Instagram';
+        $insta_url  = get_sub_field('instafeed_button_url');
+        $default_url = 'https://www.instagram.com/proj_london/';
+        ?>
+
+        <a href="<?php echo esc_url($insta_url ?: $default_url); ?>"
+          class="instafeed-button"
+          target="_blank" rel="noopener">
+          <?php echo esc_html($insta_text); ?>
         </a>
+
       <?php endif; ?>
     </p>
   </div>
 
-  <?php if ( !empty($shortcode) ) : ?>
+  <?php if (!empty($shortcode)) : ?>
     <div class="instafeed-swiper-shortcode">
-      <?php echo do_shortcode( $shortcode ); ?>
+      <?php echo do_shortcode($shortcode); ?>
     </div>
 
   <?php else : ?>
@@ -28,10 +37,10 @@ $shortcode = get_sub_field('shortcodes');
       <?php
       $slides = [];
 
-      if ( have_rows('instafeed_slides') ) :
-        while ( have_rows('instafeed_slides') ) : the_row();
+      if (have_rows('instafeed_slides')) :
+        while (have_rows('instafeed_slides')) : the_row();
           $image = get_sub_field('slide_image');
-          if ( $image ) {
+          if ($image) {
             $slides[] = $image;
           }
         endwhile;

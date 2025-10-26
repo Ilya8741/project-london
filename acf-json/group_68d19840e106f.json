@@ -1549,11 +1549,11 @@
                             "append": ""
                         },
                         {
-                            "key": "field_68d56ee8f246f",
-                            "label": "Button URL",
-                            "name": "button_url",
+                            "key": "field_68fe24917e97c",
+                            "label": "Popup title",
+                            "name": "popup_title",
                             "aria-label": "",
-                            "type": "url",
+                            "type": "text",
                             "instructions": "",
                             "required": 0,
                             "conditional_logic": 0,
@@ -1563,8 +1563,32 @@
                                 "id": ""
                             },
                             "default_value": "",
+                            "maxlength": "",
                             "allow_in_bindings": 0,
-                            "placeholder": ""
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_68d56ee8f246f",
+                            "label": "Contact form",
+                            "name": "contact_form",
+                            "aria-label": "",
+                            "type": "wysiwyg",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "allow_in_bindings": 1,
+                            "tabs": "all",
+                            "toolbar": "full",
+                            "media_upload": 1,
+                            "delay": 0
                         },
                         {
                             "key": "field_68d56efaf2470",
@@ -3729,5 +3753,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1760962268
+    "modified": 1761486036
 }

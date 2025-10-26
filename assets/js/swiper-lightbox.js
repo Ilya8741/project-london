@@ -42,19 +42,15 @@
 
   function collectItems() {
     var links = Array.prototype.slice.call(document.querySelectorAll("a.js-lightbox"));
-
     var seen = new Set();
     var uniq = [];
-
     links.forEach(function (a) {
       if (a.closest(".swiper-slide-duplicate")) return;
-
       var key = getKey(a);
       if (!key || seen.has(key)) return;
       seen.add(key);
       uniq.push(a);
     });
-
     itemsCache = uniq.map(function (a) {
       var img = a.querySelector("img");
       return {
@@ -63,13 +59,23 @@
         alt:  img ? (img.getAttribute("alt") || "") : ""
       };
     });
-
     return uniq;
+  }
+
+  function determineStartIndex(link) {
+    var key = getKey(link);
+    var href = link.getAttribute("href");
+    var idx = itemsCache.findIndex(function (it) { return it.key === key; });
+    if (idx < 0) idx = itemsCache.findIndex(function (it) { return it.href === href; });
+    if (idx < 0) idx = 0;
+    return idx;
   }
 
   function openAt(startIndex) {
     var count = itemsCache.length;
     if (!count) return;
+
+    if (typeof startIndex !== "number" || startIndex < 0 || startIndex >= count) startIndex = 0;
 
     wrapper.innerHTML = "";
     itemsCache.forEach(function (it) {
@@ -86,12 +92,14 @@
       swiper = null;
     }
 
+    var needsFix = true;
+
     swiper = new Swiper(".plb-swiper", {
-      initialSlide: Math.max(0, startIndex || 0),
+      initialSlide: 0,
       centeredSlides: true,
       slidesPerView: "auto",
       spaceBetween: 20,
-      loop: false,
+      loop: true,
       watchSlidesProgress: true,
       observer: true,
       observeParents: true,
@@ -103,15 +111,22 @@
       },
       on: {
         init: function (sw) {
-          curEl.textContent = String(sw.activeIndex + 1);
-          $all(".plb-slide-img", overlay).forEach(function (img) {
+          sw.slideToLoop(startIndex, 0, false);
+          curEl.textContent = String((sw.realIndex || 0) + 1);
+          var imgs = overlay.querySelectorAll(".plb-slide-img");
+          Array.prototype.forEach.call(imgs, function (img) {
             if (img.complete) return;
-            img.addEventListener("load", function () { sw.update(); }, { once: true });
+            img.addEventListener("load", function () { sw.update(); if (needsFix) sw.slideToLoop(startIndex, 0, false); }, { once: true });
           });
-          setTimeout(function () { sw.update(); }, 0);
+          setTimeout(function(){ sw.update(); if (needsFix) sw.slideToLoop(startIndex, 0, false); }, 0);
+        },
+        imagesReady: function (sw) {
+          sw.update();
+          if (needsFix) sw.slideToLoop(startIndex, 0, false);
+          needsFix = false;
         },
         slideChange: function (sw) {
-          curEl.textContent = String(sw.activeIndex + 1);
+          curEl.textContent = String((sw.realIndex || 0) + 1);
         }
       }
     });
@@ -141,16 +156,10 @@
   document.addEventListener("click", function (e) {
     var link = e.target.closest("a.js-lightbox");
     if (!link) return;
-
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || link.target === "_blank") return;
-
     e.preventDefault();
-
     collectItems();
-    var clickedKey = getKey(link);
-    var startIndex = Math.max(0, itemsCache.findIndex(function (it) { return it.key == clickedKey; }));
-
-    openAt(startIndex);
+    openAt(determineStartIndex(link));
   });
 
   document.addEventListener("click", function (e) {
@@ -159,5 +168,10 @@
     e.preventDefault();
     collectItems();
     if (itemsCache.length) openAt(0);
+  });
+
+  overlay.addEventListener("click", function (e) {
+    if (e.target.closest(".plb-swiper, .plb-bottombar")) return;
+    close();
   });
 })();
