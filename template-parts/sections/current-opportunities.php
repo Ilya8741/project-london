@@ -17,7 +17,7 @@
  */
 ?>
 
-<section class="careers-section" id="current-opportunities">
+<section class="careers-section <?php if (get_sub_field('padding_top')): ?> careers-section-top <?php endif; ?>" id="current-opportunities">
   <div class="careers-section-wrapper">
     <div class="careers-section-header">
       <div class="careers-section-header-left" data-aos="fade-right" data-aos-offset="200">

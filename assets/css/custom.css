@@ -4458,6 +4458,10 @@ html.is-locked {
   max-width: 1440px;
 }
 
+.careers-section.careers-section-top {
+  margin-top: 160px;
+}
+
 .careers-section-wrapper {
   max-width: 1440px;
   margin: auto;
@@ -5199,6 +5203,9 @@ form.wpcf7-form br {
 }
 
 @media (max-width: 992px) {
+  .careers-section.careers-section-top {
+  margin-top: 80px;
+}
   .process-slider-nav {
     margin-top: 32px !important;
   }
