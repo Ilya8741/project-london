@@ -30,6 +30,8 @@ body {
   transition: all 0.3s ease;
   text-decoration: none;
   outline: 0;
+  border-radius: 0 !important;
+  cursor: pointer;
 }
 
 .hero-section-button.main-button {
@@ -1610,7 +1612,18 @@ body.pl-lock {
 
 .quote-section {
   padding-top: 160px;
+  overflow: hidden;
+  position: relative;
 }
+
+.quote-section .team-modal {
+  position: fixed !important;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 9999;
+}
+
 
 .quote-section.spacing {
   padding-bottom: 160px;

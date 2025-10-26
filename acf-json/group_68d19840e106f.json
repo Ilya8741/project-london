@@ -199,6 +199,48 @@
                             "append": ""
                         },
                         {
+                            "key": "field_68fe2f7d3bb99",
+                            "label": "Popup title",
+                            "name": "popup_title",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_68fe2fff3bb9a",
+                            "label": "Contact form",
+                            "name": "contact_form",
+                            "aria-label": "",
+                            "type": "wysiwyg",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "allow_in_bindings": 0,
+                            "tabs": "all",
+                            "toolbar": "full",
+                            "media_upload": 1,
+                            "delay": 0
+                        },
+                        {
                             "key": "field_68d27ddac4d84",
                             "label": "Button URL",
                             "name": "quote_button_url",
@@ -371,6 +413,48 @@
                             },
                             "default_value": "",
                             "allow_in_bindings": 1,
+                            "tabs": "all",
+                            "toolbar": "full",
+                            "media_upload": 1,
+                            "delay": 0
+                        },
+                        {
+                            "key": "field_68fe340be3ce1",
+                            "label": "Popup title",
+                            "name": "popup_title",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_68fe341fe3ce2",
+                            "label": "Contact form",
+                            "name": "contact_form",
+                            "aria-label": "",
+                            "type": "wysiwyg",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "50",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "allow_in_bindings": 0,
                             "tabs": "all",
                             "toolbar": "full",
                             "media_upload": 1,
@@ -3753,5 +3837,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1761486036
+    "modified": 1761489976
 }
