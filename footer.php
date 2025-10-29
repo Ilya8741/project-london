@@ -88,23 +88,7 @@
 				</div>
 			<?php endif; ?>
 
-			<?php
-			$sub_text = get_field('subscribe_button_text', 'footer_options') ?: 'Subscribe';
-			$sub_url  = get_field('subscribe_button_url', 'footer_options');
-			$default_url = 'https://projectlondon.us8.list-manage.com/subscribe?u=ca0f0110a4a4b3a9a3ee89dee&id=9e0d6a222e';
-			?>
-
-			<a href="<?php echo esc_url($sub_url ?: $default_url); ?>"
-				class="footer-black-main-button main-button"
-				target="_blank" rel="noopener">
-				<span><?php echo esc_html($sub_text); ?></span>
-				<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
-					<path d="M1 1H13V13" stroke="white" stroke-width="0.5" stroke-linejoin="round" />
-					<path d="M1 13L13 1" stroke="white" stroke-width="0.5" stroke-linejoin="round" />
-				</svg>
-			</a>
-
-			<?php
+      		<?php
 			$start_text  = get_field('start_project_button', 'footer_options');
 			$start_form  = get_field('start_project_form', 'footer_options', false);
 			$footer_start_id = 'footer-start-modal';
@@ -134,6 +118,24 @@
 					</div>
 				</div>
 			<?php endif; ?>
+
+			<?php
+			$sub_text = get_field('subscribe_button_text', 'footer_options') ?: 'Subscribe';
+			$sub_url  = get_field('subscribe_button_url', 'footer_options');
+			$default_url = 'https://projectlondon.us8.list-manage.com/subscribe?u=ca0f0110a4a4b3a9a3ee89dee&id=9e0d6a222e';
+			?>
+
+			<a href="<?php echo esc_url($sub_url ?: $default_url); ?>"
+				class="footer-black-main-button main-button"
+				target="_blank" rel="noopener">
+				<span><?php echo esc_html($sub_text); ?></span>
+				<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+					<path d="M1 1H13V13" stroke="white" stroke-width="0.5" stroke-linejoin="round" />
+					<path d="M1 13L13 1" stroke="white" stroke-width="0.5" stroke-linejoin="round" />
+				</svg>
+			</a>
+
+	
 
 		</div>
 		<div class="footer-info">
