@@ -3861,6 +3861,58 @@
                     ],
                     "min": "",
                     "max": ""
+                },
+                "layout_6901f925a20f9": {
+                    "key": "layout_6901f925a20f9",
+                    "name": "careers-hero",
+                    "label": "Careers hero",
+                    "display": "block",
+                    "sub_fields": [
+                        {
+                            "key": "field_6901f933a20fb",
+                            "label": "Hero Title",
+                            "name": "hero_title",
+                            "aria-label": "",
+                            "type": "text",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "maxlength": "",
+                            "allow_in_bindings": 0,
+                            "placeholder": "",
+                            "prepend": "",
+                            "append": ""
+                        },
+                        {
+                            "key": "field_6901f93ca20fc",
+                            "label": "Video",
+                            "name": "video",
+                            "aria-label": "",
+                            "type": "file",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "return_format": "array",
+                            "library": "all",
+                            "min_size": "",
+                            "max_size": "",
+                            "mime_types": "",
+                            "allow_in_bindings": 0
+                        }
+                    ],
+                    "min": "",
+                    "max": ""
                 }
             },
             "min": "",
@@ -3900,5 +3952,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1761492632
+    "modified": 1761737293
 }

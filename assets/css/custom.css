@@ -1092,7 +1092,7 @@ body.pl-lock {
 
 /* hero-section styles */
 
-.hero-section-title {
+.hero-section-title , .careers-hero-sec-title{
   max-width: 830px;
   color: #2b2b2b;
   font-family: "Test Newzald", sans-serif;
@@ -1117,7 +1117,19 @@ body.pl-lock {
   transition: all 0.6s ease;
 }
 
-.hero-section-wrapper .main-container {
+.careers-hero-sec-image-wrapper{
+  overflow: hidden;
+}
+
+.careers-hero-sec-image-wrapper video{
+  aspect-ratio: 16/9;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  max-width: 100%;
+}
+
+.hero-section-wrapper .main-container , .careers-hero-sec-wrapper .main-container{
   max-width: 1440px;
   margin: 0 auto;
   padding: 0 20px;
@@ -1128,6 +1140,11 @@ body.pl-lock {
   transition: transform 0.6s ease;
   will-change: transform;
   margin-top: -116px;
+  padding-top: 116px;
+}
+
+.careers-hero-sec {
+    margin-top: -116px;
   padding-top: 116px;
 }
 
@@ -1170,20 +1187,24 @@ transform: translateY(0);
   .header-main-logo {
     height: 48px;
   }
-  .hero-section-wrapper .main-container {
+  .hero-section-wrapper .main-container , .careers-hero-sec-wrapper .main-container{
     padding: 0 24px;
   }
   .hero-section-button.main-button span {
     display: none;
   }
 
-  .hero-section-title {
+  .hero-section-title , .careers-hero-sec-title{
     padding: 80px 0 48px 0;
     font-size: 48px;
     line-height: 100%;
   }
 
   .hero-section-image-wrapper video {
+    aspect-ratio: 430 / 264;
+  }
+
+  .careers-hero-sec-image-wrapper video {
     aspect-ratio: 430 / 264;
   }
 
