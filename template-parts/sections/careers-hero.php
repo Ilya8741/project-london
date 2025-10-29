@@ -1,7 +1,7 @@
 <div class="careers-hero-sec">
   <div class=" careers-hero-sec-wrapper">
     <div class="main-container">
-      <h1 class="careers-hero-sec-title">
+      <h1 class="careers-hero-sec-title" data-aos="fade-right"  data-aos-offset="200" data-aos-delay="200">
         <?php the_sub_field('hero_title'); ?>
       </h1>
     </div>
