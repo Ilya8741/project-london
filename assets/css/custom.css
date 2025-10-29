@@ -1130,6 +1130,10 @@ body.pl-lock {
   margin-top: -116px;
   padding-top: 116px;
 }
+
+.has-seen-preloader .hero-section {
+transform: translateY(0);
+}
 .hero-reveal .hero-section {
   transform: translateY(0);
 }

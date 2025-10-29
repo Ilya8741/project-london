@@ -50,26 +50,29 @@ if ( is_front_page() && $pl_enabled ): ?>
     </div>
   </div>
 
-  <script>
-function ensureStartAtTop(onlyHome=true){
-  if(onlyHome && !document.body.classList.contains('home')) return;
-  try{ if('scrollRestoration' in history){ history.scrollRestoration='manual'; } }catch(e){}
-  window.scrollTo(0,0);
-  window.addEventListener('pageshow', function(e){ if(e.persisted) window.scrollTo(0,0); });
-  window.addEventListener('beforeunload', function(){ window.scrollTo(0,0); });
-}
-ensureStartAtTop(true);
-</script>
-
 <script>
 (function () {
   var d  = document;
   var ov = d.getElementById('pl-overlay');
   if (!ov) return;
 
-  if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+  var seenSession = false;
+  try {
+    seenSession = sessionStorage.getItem('pl_seen') === '1';
+  } catch(e) {}
+
+  if (seenSession) {
+    d.body.classList.add('has-seen-preloader');
+  }
+
+  if (seenSession) {
+    ov.remove();
+    return;
+  }
+
+  try { if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; } } catch(e){}
   window.scrollTo(0, 0);
-  window.addEventListener('pageshow', function(e) { if (e.persisted) window.scrollTo(0, 0); });
+  window.addEventListener('pageshow', function(e){ if(e.persisted) window.scrollTo(0,0); });
 
   var dur = parseInt(ov.getAttribute('data-duration') || '3000', 10);
   ov.style.setProperty('--pl-dur', dur + 'ms');
@@ -90,35 +93,26 @@ ensureStartAtTop(true);
   setHeroVars();
   window.addEventListener('resize', setHeroVars);
 
-  function getTransitionMs(el) {
-    try {
+  function getTransitionMs(el){
+    try{
       var cs = getComputedStyle(el);
       var td = (cs.transitionDuration || '0s').split(',')[0].trim();
-      return td.endsWith('ms') ? parseFloat(td) : parseFloat(td) * 1000;
-    } catch (e) { return 300; }
+      return td.endsWith('ms') ? parseFloat(td) : parseFloat(td)*1000;
+    }catch(e){ return 300; }
   }
 
-  function animateHeroVideoReturn() {
+  function animateHeroVideoReturn(){
     var wrap  = d.querySelector('.hero-section-image-wrapper');
     var video = wrap ? wrap.querySelector('video') : null;
-    if (!wrap || !video) {
-      d.body.classList.remove('hero-video-top');
-      return;
-    }
-
+    if (!wrap || !video) { d.body.classList.remove('hero-video-top'); return; }
     var startWrapH  = wrap.getBoundingClientRect().height;
     var startVideoH = video.getBoundingClientRect().height;
-
     d.body.classList.remove('hero-video-top');
-
     var endWrapH = wrap.getBoundingClientRect().height;
-
     wrap.style.height  = startWrapH + 'px';
     video.style.height = startVideoH + 'px';
     void wrap.offsetHeight;
-
     wrap.style.height = endWrapH + 'px';
-
     var onEnd = function(e){
       if (e.propertyName === 'height') {
         wrap.style.height = '';
@@ -129,29 +123,37 @@ ensureStartAtTop(true);
     wrap.addEventListener('transitionend', onEnd);
   }
 
-  setTimeout(function () {
+  setTimeout(function(){
     var fadeMs = getTransitionMs(ov) || 300;
 
-    d.body.classList.add('hero-reveal');
-
-    setHeroVars();
-    d.body.classList.add('hero-video-top');
-
-    setTimeout(animateHeroVideoReturn, 2000);
+    setTimeout(function(){
+      d.body.classList.add('hero-reveal');
+      setHeroVars();
+      d.body.classList.add('hero-video-top');
+      setTimeout(animateHeroVideoReturn, 2000);
+    }, 500);
 
     ov.classList.add('is-done');
 
-    setTimeout(function () {
+    setTimeout(function(){
       d.documentElement.classList.remove('pl-lock');
       d.body.classList.remove('pl-lock');
       ov.remove();
+
+      try {
+        sessionStorage.setItem('pl_seen','1');
+      } catch(e) {}
+      d.body.classList.add('has-seen-preloader');
     }, fadeMs + 50);
 
   }, dur);
 })();
 </script>
 
+
+
 <?php endif; ?>
+
 
 	<div id="page" class="site">
 

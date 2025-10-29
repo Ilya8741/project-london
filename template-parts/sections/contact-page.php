@@ -97,11 +97,6 @@
                                         target="<?php echo esc_attr($info_link['target'] ?: '_self'); ?>">
                                         <?php echo esc_html($info_link['title'] ?: ''); ?>
                                         <?php $get = get_sub_field('get_directions_url'); ?>
-                                        <?php if ($get): ?>
-                                            <a href="<?php echo esc_html($get); ?>" class="contact-page-get-link">
-                                                Get directions
-                                            </a>
-                                        <?php endif; ?>
                                     </a>
                                     <?php else : ?>
                                        <p
@@ -109,7 +104,7 @@
                                         <?php echo esc_html($info_link['title'] ?: ''); ?>
                                         <?php $get = get_sub_field('get_directions_url'); ?>
                                         <?php if ($get): ?>
-                                            <a href="<?php echo esc_html($get); ?>" class="contact-page-get-link">
+                                            <a href="<?php echo esc_html($get); ?>" class="contact-page-get-link" target="_blank">
                                                 Get directions
                                             </a>
                                         <?php endif; ?>
@@ -125,7 +120,7 @@
     </div>
 </div>
 
-<script>
+<!-- <script>
 (function() {
   const root = document.querySelector('.contact-page');
   if (!root) return;
@@ -428,4 +423,4 @@
 
   initGlobal();
 })();
-</script>
+</script> -->

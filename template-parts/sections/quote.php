@@ -28,7 +28,7 @@
             <?php if ($q_form_raw): ?>
                 <button type="button"
                         class="quote-button main-button"
-                        data-modal="#<?php echo esc_attr($q_tpl_id); ?>">
+                        data-modal="#<?php echo esc_attr($q_tpl_id); ?>" data-modal-local>
                     <span><?php echo esc_html($q_btn_text); ?></span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                         <path d="M1 1H13V13" stroke="#2B2B2B" stroke-width="0.5" stroke-linejoin="round" />
