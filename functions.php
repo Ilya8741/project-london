@@ -9,7 +9,7 @@
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
-	define( '_S_VERSION', '2.8.2' );
+	define( '_S_VERSION', '2.8.5' );
 }
 
 /**
@@ -209,15 +209,15 @@ function project_london_scripts() {
   );
 
   $fd_rel = '/assets/js/file-drop.js';
-  $fd_path = get_stylesheet_directory() . $fd_rel;           // если дочерняя тема; для родительской — get_template_directory()
+  $fd_path = get_stylesheet_directory() . $fd_rel;
   $fd_uri  = get_stylesheet_directory_uri() . $fd_rel;
 
   wp_enqueue_script(
     'file-drop',
     $fd_uri,
-    [],                                      // зависимости не нужны
-    file_exists($fd_path) ? filemtime($fd_path) : null,  // кэш-бастинг
-    true                                     // в футере
+    [],       
+    file_exists($fd_path) ? filemtime($fd_path) : null,
+    true
   );
 
   // AOS (JS)

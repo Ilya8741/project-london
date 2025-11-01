@@ -1,4 +1,4 @@
-<div class="quote-right <?php if (get_sub_field('medium_width')): ?> quote-right-medium-width<?php endif; ?>">
+<div class="quote-right <?php if (get_sub_field('medium_width')): ?> quote-right-medium-width<?php endif; ?> <?php if (get_sub_field('padding_top_none')): ?> quote-right-padding-top-none<?php endif; ?>" >
     <div class="quote-right-wrapper" data-aos="fade-left">
         <div class="quote-right-content">
             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="27" viewBox="0 0 40 27" fill="none">

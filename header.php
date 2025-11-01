@@ -126,13 +126,11 @@ if ( is_front_page() && $pl_enabled ): ?>
   setTimeout(function(){
     var fadeMs = getTransitionMs(ov) || 300;
 
-    setTimeout(function(){
       d.body.classList.add('hero-reveal');
       setHeroVars();
       d.body.classList.add('hero-video-top');
       setTimeout(animateHeroVideoReturn, 2000);
-    }, 500);
-
+  
     ov.classList.add('is-done');
 
     setTimeout(function(){
@@ -149,8 +147,6 @@ if ( is_front_page() && $pl_enabled ): ?>
   }, dur);
 })();
 </script>
-
-
 
 <?php endif; ?>
 
