@@ -247,7 +247,6 @@
   const log=(...a)=>console.log(TAG, ...a);
   const warn=(...a)=>console.warn(TAG, ...a);
 
-  // ===== helpers =====
   function waitFor(cond, {timeout=12000, step=100}={}) {
     return new Promise((resolve, reject)=>{
       const t0=Date.now();
@@ -259,20 +258,17 @@
     });
   }
 
-  // точная формула stagePadding для 2.3 слайда при items:2
-  // f=0.3 видимой части третьего слайда: P = f/(2*(1+f)) * (W + margin)
+  // 2.3 слайда при items:2 → f=0.3 видимой части третьего
   function calcStagePadding(containerEl, marginPx){
     const W = (containerEl && containerEl.clientWidth) || window.innerWidth || 0;
     const m = +marginPx || 0;
     const f = 0.3;
-    const P = (f/(2*(1+f))) * (W + m); // ≈ 0.11538*(W+m)
-    return Math.max(0, Math.round(P));
+    return Math.max(0, Math.round((f/(2*(1+f))) * (W + m))); // ≈ 0.11538*(W+m)
   }
 
-  // аккуратный снап активного к центру (только на десктопе)
   function snapToCenter($owl, speed=0){
     const inst = $owl.data('owl.carousel');
-    if (!inst || !inst.options.center) return; // снапим ТОЛЬКО когда center включён
+    if (!inst || !inst.options.center) return;
     const $act = $owl.find('.sbi-owl-item.active');
     if (!$act.length) return;
     const mid = Math.floor($act.length/2);
@@ -280,14 +276,23 @@
     $owl.trigger('to.owl.carousel', [idx, speed, true]);
   }
 
-  // подписки/отписки обработчиков в зависимости от режима
+  // ВАЖНО: на мобиле оставляем padding только справа
+  function applyOneSidePadding($owl, pad){
+    const $stage = $owl.find('.sbi-owl-stage');
+    // сбрасываем левый, задаём правый
+    $stage.css({ paddingLeft: '0px', paddingRight: pad + 'px' });
+  }
+  function resetStagePadding($owl){
+    $owl.find('.sbi-owl-stage').css({ paddingLeft:'0px', paddingRight:'0px' });
+  }
+
+  // бинды/анбинды
   function bindDesktopHandlers($owl){
     if ($owl.data('ig-bound-desktop')) return;
     unbindMobileHandlers($owl);
     $owl.data('ig-bound-desktop', 1);
-
     let t=0;
-    $owl.on('changed.owl.carousel.igcenter', ()=>{
+    $owl.on('changed.owl.carousel.igcenter', ()=> {
       clearTimeout(t);
       t = setTimeout(()=> snapToCenter($owl, 380), 16);
     });
@@ -298,32 +303,32 @@
     $owl.off('.igcenter');
     $owl.removeData('ig-bound-desktop');
   }
-
   function bindMobileHandlers($owl){
     if ($owl.data('ig-bound-mobile')) return;
     unbindDesktopHandlers($owl);
     $owl.data('ig-bound-mobile', 1);
-    // На мобиле ничего не снапим — «1 свайп = 1 шаг», без автоскроллов.
-    // Оставляем нативное поведение Owl.
+    // доп. хендлеры для поддержания правого паддинга при refresh/resize
+    $owl.on('refreshed.owl.carousel.igmobile resized.owl.carousel.igmobile', ()=>{
+      const inst = $owl.data('owl.carousel');
+      const pad = inst ? inst.options.stagePadding || 0 : 0;
+      applyOneSidePadding($owl, pad);
+    });
   }
   function unbindMobileHandlers($owl){
     if (!$owl.data('ig-bound-mobile')) return;
-    $owl.off('.igmobile'); // вдруг что-то навешивали — снимаем
+    $owl.off('.igmobile');
     $owl.removeData('ig-bound-mobile');
   }
 
-  // применяем режим без destroy/init
   function applyMode(feed, {force=false}={}){
     const $ = jQuery;
     const $owl = $(feed);
     const inst = $owl.data('owl.carousel');
     if (!inst) return false;
 
-    // не гоняем настройки в цикле
     if ($owl.data('ig-centering-inprogress')) return false;
     $owl.data('ig-centering-inprogress', 1);
 
-    // базовые плавные скорости (не трогаем, если уже заданы)
     inst.options.smartSpeed    = inst.options.smartSpeed    ?? 450;
     inst.options.dragEndSpeed  = inst.options.dragEndSpeed  ?? 420;
     inst.options.autoplaySpeed = inst.options.autoplaySpeed ?? 450;
@@ -337,42 +342,38 @@
     }
 
     if (mobile) {
-      // === MOBILE MODE ===
-      inst.options.center = false;       // убрать центральный слайд
-      inst.options.slideBy = 1;          // 1 свайп = 1 шаг
-      inst.options.autoplay = false;     // исключаем «разгон»
+      // ===== MOBILE: без центра, прижато влево, видно ~0.3 следующего
+      inst.options.center = false;
+      inst.options.slideBy = 1;
+      inst.options.autoplay = false;
       inst.options.autoplayHoverPause = true;
-      inst.options.freeDrag = false;     // без инерции на произвольное расстояние
+      inst.options.freeDrag = false;
       inst.options.pullDrag = true;
-      // responsive: явно фиксируем, чтобы плагин не вернул center назад
+
       inst.options.responsive = inst.options.responsive || {};
       inst.options.responsive[0]   = Object.assign({}, inst.options.responsive[0],   { items:2, center:false, slideBy:1 });
       inst.options.responsive[600] = Object.assign({}, inst.options.responsive[600], { center:true });
 
-      // точный padding под 2.3 слайда
       const pad = calcStagePadding(feed, margin);
       if (inst.options.stagePadding !== pad) inst.options.stagePadding = pad;
 
-      // одно обновление
       $owl.trigger('refresh.owl.carousel');
+      applyOneSidePadding($owl, pad); // ← левый 0, правый pad
 
-      // бинды только мобильные (фактически — ничего не делаем, главное снять десктопные)
       bindMobileHandlers($owl);
     } else {
-      // === DESKTOP MODE ===
-      inst.options.center = true;        // держим центральный
-      inst.options.slideBy = 1;
+      // ===== DESKTOP: центр включён
+      inst.options.center = true;
       inst.options.stagePadding = 0;
-      // autoplay — оставляем как было (если был включён темой), мы его не навязываем
-      // применим responsive, чтобы при переходе обратно мобила выключала center
+
       inst.options.responsive = inst.options.responsive || {};
       inst.options.responsive[0]   = Object.assign({}, inst.options.responsive[0],   { items:2, center:false, slideBy:1 });
       inst.options.responsive[600] = Object.assign({}, inst.options.responsive[600], { center:true });
 
       $owl.trigger('refresh.owl.carousel');
+      resetStagePadding($owl);       // убираем правый паддинг, чтобы ровно центрилось
       setTimeout(()=> snapToCenter($owl, 380), 30);
 
-      // бинды для десктопа (снап после changed/resize)
       bindDesktopHandlers($owl);
     }
 
@@ -395,10 +396,8 @@
     }
   }
 
-  // старт
   setupOn(document);
 
-  // только появление готового фида
   const mo = new MutationObserver(muts=>{
     for (const m of muts){
       if (m.type !== 'childList') continue;
@@ -415,7 +414,7 @@
   });
   mo.observe(document.body, {subtree:true, childList:true});
 
-  // debounce resize — переключаем режим только при реальном переходе
+  // дебаунс resize
   (function bindResize(){
     let raf = 0;
     window.addEventListener('resize', ()=>{
