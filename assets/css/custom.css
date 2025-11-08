@@ -1403,6 +1403,7 @@ transform: translateY(0);
     flex-direction: column;
     gap: 24px;
     padding-bottom: 48px;
+    align-items: flex-start !important;
   }
 
   .hero-slider-text {
