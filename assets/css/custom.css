@@ -5244,6 +5244,16 @@ form.wpcf7-form br {
 .sbi_item .sbi_info_wrapper {
   display: none !important;
 }
+
+#sbi_images.sbi_carousel .sbi-owl-stage-outer,
+#sbi_images.sbi_carousel .sbi-owl-stage {
+  touch-action: pan-y;
+  -ms-touch-action: pan-y; 
+  overscroll-behavior: contain; 
+  will-change: transform;
+}
+
+
 @media (max-width: 992px) {
   .careers-section.careers-section-top {
   margin-top: 80px;
