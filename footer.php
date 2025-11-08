@@ -276,23 +276,19 @@
     $owl.trigger('to.owl.carousel', [idx, speed, true]);
   }
 
-  // ВАЖНО: на мобиле оставляем padding только справа
   function applyOneSidePadding($owl, pad){
-    const $stage = $owl.find('.sbi-owl-stage');
-    // сбрасываем левый, задаём правый
-    $stage.css({ paddingLeft: '0px', paddingRight: pad + 'px' });
+    $owl.find('.sbi-owl-stage').css({ paddingLeft: '0px', paddingRight: pad + 'px' });
   }
   function resetStagePadding($owl){
     $owl.find('.sbi-owl-stage').css({ paddingLeft:'0px', paddingRight:'0px' });
   }
 
-  // бинды/анбинды
   function bindDesktopHandlers($owl){
     if ($owl.data('ig-bound-desktop')) return;
     unbindMobileHandlers($owl);
     $owl.data('ig-bound-desktop', 1);
     let t=0;
-    $owl.on('changed.owl.carousel.igcenter', ()=> {
+    $owl.on('changed.owl.carousel.igcenter', ()=>{
       clearTimeout(t);
       t = setTimeout(()=> snapToCenter($owl, 380), 16);
     });
@@ -307,7 +303,6 @@
     if ($owl.data('ig-bound-mobile')) return;
     unbindDesktopHandlers($owl);
     $owl.data('ig-bound-mobile', 1);
-    // доп. хендлеры для поддержания правого паддинга при refresh/resize
     $owl.on('refreshed.owl.carousel.igmobile resized.owl.carousel.igmobile', ()=>{
       const inst = $owl.data('owl.carousel');
       const pad = inst ? inst.options.stagePadding || 0 : 0;
@@ -342,7 +337,7 @@
     }
 
     if (mobile) {
-      // ===== MOBILE: без центра, прижато влево, видно ~0.3 следующего
+      // ===== MOBILE =====
       inst.options.center = false;
       inst.options.slideBy = 1;
       inst.options.autoplay = false;
@@ -358,21 +353,34 @@
       if (inst.options.stagePadding !== pad) inst.options.stagePadding = pad;
 
       $owl.trigger('refresh.owl.carousel');
-      applyOneSidePadding($owl, pad); // ← левый 0, правый pad
+      applyOneSidePadding($owl, pad);
 
       bindMobileHandlers($owl);
     } else {
-      // ===== DESKTOP: центр включён
-      inst.options.center = true;
-      inst.options.stagePadding = 0;
+      // ===== DESKTOP =====
+      inst.options.center = true;          // включаем центр
+      inst.options.stagePadding = 0;       // без паддингов
+      inst.options.slideBy = 1;
 
       inst.options.responsive = inst.options.responsive || {};
       inst.options.responsive[0]   = Object.assign({}, inst.options.responsive[0],   { items:2, center:false, slideBy:1 });
       inst.options.responsive[600] = Object.assign({}, inst.options.responsive[600], { center:true });
 
+      // один refresh → затем снап, когда всё реально дорисовано
       $owl.trigger('refresh.owl.carousel');
-      resetStagePadding($owl);       // убираем правый паддинг, чтобы ровно центрилось
-      setTimeout(()=> snapToCenter($owl, 380), 30);
+      resetStagePadding($owl);
+
+      // ждём первую «переводку» и снапим (если событие не придёт — сделаем таймером)
+      const onceDesktopInit = ()=>{
+        snapToCenter($owl, 380);
+        $owl.off('translated.owl.carousel.iginitialize', onceDesktopInit);
+      };
+      $owl.on('translated.owl.carousel.iginitialize', onceDesktopInit);
+      setTimeout(()=> {
+        // резервный снап, если translated не сработал
+        snapToCenter($owl, 380);
+        $owl.off('translated.owl.carousel.iginitialize', onceDesktopInit);
+      }, 80);
 
       bindDesktopHandlers($owl);
     }
@@ -383,9 +391,8 @@
   }
 
   async function setupOn(node){
-    try {
-      await waitFor(()=> window.jQuery && jQuery.fn && jQuery.fn.sbiOwlCarousel);
-    } catch(e){ warn('sbiOwlCarousel not ready'); return; }
+    try { await waitFor(()=> window.jQuery && jQuery.fn && jQuery.fn.sbiOwlCarousel); }
+    catch(e){ warn('sbiOwlCarousel not ready'); return; }
 
     const feeds = (node.querySelectorAll ? node.querySelectorAll('#sbi_images.sbi_carousel') : []);
     if (!feeds.length) return;
@@ -396,8 +403,8 @@
     }
   }
 
+  // старт и отслеживание появления готового фида
   setupOn(document);
-
   const mo = new MutationObserver(muts=>{
     for (const m of muts){
       if (m.type !== 'childList') continue;
@@ -414,7 +421,7 @@
   });
   mo.observe(document.body, {subtree:true, childList:true});
 
-  // дебаунс resize
+  // переключение режимов только при реальном resize
   (function bindResize(){
     let raf = 0;
     window.addEventListener('resize', ()=>{
