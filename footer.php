@@ -241,7 +241,33 @@
 
 </footer>
 
+
+
 <script>
+
+  document.addEventListener('DOMContentLoaded', function () {
+  const feed = document.querySelector('#sbi_images');
+  if (!feed || !jQuery) return;
+
+  const $ = jQuery;
+  const owl = $(feed);
+
+  owl.trigger('destroy.owl.carousel');
+  owl.owlCarousel({
+    center: true,  
+    loop: true,
+    margin: 20,
+    autoWidth: true, 
+    items: 4,          
+    responsive: {
+      0:   { items: 2 },
+      640: { items: 3 },
+      1024:{ items: 4 }
+    }
+  });
+});
+
+
 /**
  * GLOBAL modal manager for any section
  * - Opens templates by [data-modal="#id"] into the nearest .team-modal within the same section/page part

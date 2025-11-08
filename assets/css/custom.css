@@ -5232,6 +5232,15 @@ form.wpcf7-form br {
   overflow: hidden;
 }
 
+/* instafeed plugin */
+.instafeed-swiper-shortcode #sb_instagram #sbi_mod_error {
+  display: none !important;
+}
+
+
+.sbi_item .sbi_info_wrapper {
+  display: none !important;
+}
 @media (max-width: 992px) {
   .careers-section.careers-section-top {
   margin-top: 80px;
