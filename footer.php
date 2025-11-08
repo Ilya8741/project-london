@@ -245,27 +245,121 @@
 
 <script>
 
-  document.addEventListener('DOMContentLoaded', function () {
-  const feed = document.querySelector('#sbi_images');
-  if (!feed || !jQuery) return;
+(function () {
+  const TAG='[IG center]';
+  const log=(...a)=>console.log(TAG, ...a);
+  const warn=(...a)=>console.warn(TAG, ...a);
+  const err=(...a)=>console.error(TAG, ...a);
 
-  const $ = jQuery;
-  const owl = $(feed);
+  // ——— utils ———
+  function waitFor(cond, {timeout=8000, step=100}={}) {
+    return new Promise((resolve, reject)=>{
+      const t0=Date.now();
+      (function tick(){
+        if (cond()) return resolve(true);
+        if (Date.now()-t0>timeout) return reject(new Error('timeout'));
+        setTimeout(tick, step);
+      })();
+    });
+  }
 
-  owl.trigger('destroy.owl.carousel');
-  owl.owlCarousel({
-    center: true,  
-    loop: true,
-    margin: 20,
-    autoWidth: true, 
-    items: 4,          
-    responsive: {
-      0:   { items: 2 },
-      640: { items: 3 },
-      1024:{ items: 4 }
+  // Snap активного слайда в «по-центру»
+  function snapToCenter($owl, speed=0){
+    const $act = $owl.find('.sbi-owl-item.active');
+    if (!$act.length) { warn('нет .active для snap'); return; }
+    const mid = Math.floor($act.length/2);
+    const idx = jQuery($act.get(mid)).index(); // индекс в .sbi-owl-stage
+    try { $owl.trigger('to.owl.carousel', [idx, speed, true]); }
+    catch(e){ warn('to.owl.carousel error', e); }
+  }
+
+  // Включаем center:true, не трогая остальное (nav/dots/autoplay/responsive и т.д.)
+  function ensureCentered(feed){
+    const $ = jQuery;
+    const $owl = $(feed);
+    const inst = $owl.data('owl.carousel');
+
+    if (!inst) {
+      // ещё не инициализирован — попробуем позже
+      return false;
     }
-  });
-});
+
+    // уже центрирует — просто доснапим
+    if (inst.options.center === true) {
+      snapToCenter($owl, 0);
+      attachAutofix($owl);
+      return true;
+    }
+
+    const preserved = {...inst.options}; // всё как было
+    preserved.center = true;             // добавляем только центрирование
+
+    // аккуратный destroy + init
+    try { $owl.trigger('destroy.owl.carousel'); } catch(e){}
+    try { if ($owl.data('owl.carousel')) $owl.owlCarousel('destroy'); } catch(e){}
+
+    try {
+      $owl.owlCarousel(preserved);
+      snapToCenter($owl, 0);
+      attachAutofix($owl);
+      log('center:true применён');
+      return true;
+    } catch(e){
+      err('init с center:true упал', e);
+      return false;
+    }
+  }
+
+  // После любых изменений — подравниваем к центру
+  function attachAutofix($owl){
+    if ($owl.data('__ig_center_bound')) return;
+    $owl.data('__ig_center_bound', 1);
+    $owl.on('changed.owl.carousel refreshed.owl.carousel resized.owl.carousel', ()=> snapToCenter($owl, 0));
+  }
+
+  // ——— bootstrap ———
+  (async function boot(){
+    try {
+      await waitFor(()=> window.jQuery && jQuery.fn && jQuery.fn.owlCarousel, {timeout:12000});
+      log('jQuery/Owl готовы');
+    } catch(e){ err('jQuery/Owl не загрузились', e); return; }
+
+    const tryFeed = (node)=>{
+      // интересуют только готовые карусели
+      if (!(node instanceof Element)) return;
+      // сам контейнер
+      if (node.id === 'sbi_images' && node.classList.contains('sbi_carousel')) {
+        // ждём «готовность» owl у этого конкретного фида
+        setTimeout(()=> ensureCentered(node), 0);
+      }
+      // или дочерние готовые
+      node.querySelectorAll('#sbi_images.sbi_carousel').forEach(el=>{
+        setTimeout(()=> ensureCentered(el), 0);
+      });
+    };
+
+    // стартовая попытка (на случай, если уже отрендерилось)
+    document.querySelectorAll('#sbi_images.sbi_carousel').forEach(el=> tryFeed(el));
+
+    // наблюдаем за появлением/перерисовкой апки
+    const mo = new MutationObserver(muts=>{
+      // реагируем только когда добавились узлы или изменились классы
+      for (const m of muts){
+        if (m.type === 'childList'){
+          m.addedNodes.forEach(tryFeed);
+        } else if (m.type === 'attributes' && m.attributeName === 'class'){
+          const el = m.target;
+          if (el.id === 'sbi_images' && el.classList.contains('sbi_carousel')) {
+            setTimeout(()=> ensureCentered(el), 0);
+          }
+        }
+      }
+    });
+    mo.observe(document.body, {subtree:true, childList:true, attributes:true, attributeFilter:['class']});
+
+    log('MutationObserver активирован');
+  })();
+})();
 
 
 /**

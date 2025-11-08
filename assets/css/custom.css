@@ -5236,7 +5236,10 @@ form.wpcf7-form br {
 .instafeed-swiper-shortcode #sb_instagram #sbi_mod_error {
   display: none !important;
 }
-
+#sbi_images, #sb_instagram {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
 
 .sbi_item .sbi_info_wrapper {
   display: none !important;
