@@ -241,18 +241,15 @@
 
 </footer>
 
-
-
 <script>
-
 (function () {
   const TAG='[IG center]';
   const log=(...a)=>console.log(TAG, ...a);
   const warn=(...a)=>console.warn(TAG, ...a);
   const err=(...a)=>console.error(TAG, ...a);
 
-  // ——— utils ———
-  function waitFor(cond, {timeout=8000, step=100}={}) {
+  // ===== utils =====
+  function waitFor(cond, {timeout=12000, step=100}={}) {
     return new Promise((resolve, reject)=>{
       const t0=Date.now();
       (function tick(){
@@ -263,8 +260,8 @@
     });
   }
 
-  // Snap активного слайда в «по-центру»
   function snapToCenter($owl, speed=0){
+    // берём набор .active (их может быть 3-5 при items>1), выбираем средний и скроллим к нему
     const $act = $owl.find('.sbi-owl-item.active');
     if (!$act.length) { warn('нет .active для snap'); return; }
     const mid = Math.floor($act.length/2);
@@ -273,95 +270,101 @@
     catch(e){ warn('to.owl.carousel error', e); }
   }
 
-  // Включаем center:true, не трогая остальное (nav/dots/autoplay/responsive и т.д.)
-  function ensureCentered(feed){
-    const $ = jQuery;
-    const $owl = $(feed);
-    const inst = $owl.data('owl.carousel');
-
-    if (!inst) {
-      // ещё не инициализирован — попробуем позже
-      return false;
-    }
-
-    // уже центрирует — просто доснапим
-    if (inst.options.center === true) {
-      snapToCenter($owl, 0);
-      attachAutofix($owl);
-      return true;
-    }
-
-    const preserved = {...inst.options}; // всё как было
-    preserved.center = true;             // добавляем только центрирование
-
-    // аккуратный destroy + init
-    try { $owl.trigger('destroy.owl.carousel'); } catch(e){}
-    try { if ($owl.data('owl.carousel')) $owl.owlCarousel('destroy'); } catch(e){}
-
-    try {
-      $owl.owlCarousel(preserved);
-      snapToCenter($owl, 0);
-      attachAutofix($owl);
-      log('center:true применён');
-      return true;
-    } catch(e){
-      err('init с center:true упал', e);
-      return false;
-    }
-  }
-
-  // После любых изменений — подравниваем к центру
   function attachAutofix($owl){
     if ($owl.data('__ig_center_bound')) return;
     $owl.data('__ig_center_bound', 1);
     $owl.on('changed.owl.carousel refreshed.owl.carousel resized.owl.carousel', ()=> snapToCenter($owl, 0));
   }
 
-  // ——— bootstrap ———
-  (async function boot(){
+  function ensureCentered(feed){
+    const $ = jQuery;
+    const $owl = $(feed);
+
+    // инстанс Owl (внутри остаётся 'owl.carousel')
+    const inst = $owl.data('owl.carousel');
+    if (!inst) {
+      // ещё не инициализировался — попробуем позже
+      return false;
+    }
+
+    // если уже включён — просто доснапим
+    if (inst.options && inst.options.center === true) {
+      log('center уже включен — snap');
+      snapToCenter($owl, 0);
+      attachAutofix($owl);
+      return true;
+    }
+
+    // сохраняем все текущие опции и добавляем только center:true
+    const preserved = {...inst.options};
+    preserved.center = true;
+
+    // безопасный destroy/init именно через sbiOwlCarousel
+    try { $owl.sbiOwlCarousel('destroy'); } catch(e){/* ignore */} 
     try {
-      await waitFor(()=> window.jQuery && jQuery.fn && jQuery.fn.owlCarousel, {timeout:12000});
-      log('jQuery/Owl готовы');
-    } catch(e){ err('jQuery/Owl не загрузились', e); return; }
+      $owl.sbiOwlCarousel(preserved);
+      log('инициализировали с center:true');
+      snapToCenter($owl, 0);
+      attachAutofix($owl);
+      return true;
+    } catch(e){
+      err('init с center:true не удался', e);
+      return false;
+    }
+  }
 
-    const tryFeed = (node)=>{
-      // интересуют только готовые карусели
-      if (!(node instanceof Element)) return;
-      // сам контейнер
-      if (node.id === 'sbi_images' && node.classList.contains('sbi_carousel')) {
-        // ждём «готовность» owl у этого конкретного фида
-        setTimeout(()=> ensureCentered(node), 0);
-      }
-      // или дочерние готовые
-      node.querySelectorAll('#sbi_images.sbi_carousel').forEach(el=>{
-        setTimeout(()=> ensureCentered(el), 0);
-      });
-    };
+  async function bootOnce(root=document){
+    // ждём jQuery и плагин
+    try {
+      await waitFor(()=> window.jQuery && jQuery.fn && jQuery.fn.sbiOwlCarousel);
+      log('jQuery и $.fn.sbiOwlCarousel готовы');
+    } catch(e){ err('ожидание sbiOwlCarousel: timeout', e); return; }
 
-    // стартовая попытка (на случай, если уже отрендерилось)
-    document.querySelectorAll('#sbi_images.sbi_carousel').forEach(el=> tryFeed(el));
+    // найдём все карусели (иногда их несколько)
+    const nodes = root.querySelectorAll('#sbi_images.sbi_carousel');
+    if (!nodes.length){ warn('карусель не найдена'); return; }
 
-    // наблюдаем за появлением/перерисовкой апки
-    const mo = new MutationObserver(muts=>{
-      // реагируем только когда добавились узлы или изменились классы
-      for (const m of muts){
-        if (m.type === 'childList'){
-          m.addedNodes.forEach(tryFeed);
-        } else if (m.type === 'attributes' && m.attributeName === 'class'){
-          const el = m.target;
-          if (el.id === 'sbi_images' && el.classList.contains('sbi_carousel')) {
-            setTimeout(()=> ensureCentered(el), 0);
+    for (const feed of nodes) {
+      // ждём «готовность» виджета на этом конкретном узле
+      try {
+        await waitFor(()=> feed.classList.contains('sbi-owl-loaded'), {timeout: 8000});
+      } catch(e){ warn('не дождались .sbi-owl-loaded, пробуем всё равно'); }
+      ensureCentered(feed);
+    }
+  }
+
+  // стартовая попытка
+  bootOnce(document);
+
+  // наблюдаем за подгрузкой/перерисовкой виджета
+  const mo = new MutationObserver(muts=>{
+    for (const m of muts){
+      if (m.type==='childList'){
+        m.addedNodes.forEach(node=>{
+          if (!(node instanceof Element)) return;
+          if (node.matches && node.matches('#sbi_images.sbi_carousel')) {
+            // новый фид
+            bootOnce(node.parentNode || document);
+          } else {
+            const inner = node.querySelector && node.querySelector('#sbi_images.sbi_carousel');
+            if (inner) bootOnce(node);
           }
+        });
+      } else if (m.type==='attributes' && m.attributeName==='class'){
+        const el = m.target;
+        if (el.id==='sbi_images' && el.classList.contains('sbi_carousel') && el.classList.contains('sbi-owl-loaded')) {
+          ensureCentered(el);
         }
       }
-    });
-    mo.observe(document.body, {subtree:true, childList:true, attributes:true, attributeFilter:['class']});
-
-    log('MutationObserver активирован');
-  })();
+    }
+  });
+  mo.observe(document.body, {subtree:true, childList:true, attributes:true, attributeFilter:['class']});
+  log('MutationObserver запущен');
 })();
+</script>
 
 
+<script>
 /**
  * GLOBAL modal manager for any section
  * - Opens templates by [data-modal="#id"] into the nearest .team-modal within the same section/page part
