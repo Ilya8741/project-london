@@ -247,7 +247,7 @@
   const log=(...a)=>console.log(TAG, ...a);
   const warn=(...a)=>console.warn(TAG, ...a);
 
-  // --- helpers ---
+  // ===== helpers =====
   function waitFor(cond, {timeout=12000, step=100}={}) {
     return new Promise((resolve, reject)=>{
       const t0=Date.now();
@@ -258,14 +258,10 @@
       })();
     });
   }
-
-  // «~2.3 слайда» при items:2 через stagePadding ~= 15% ширины контейнера
-  function calcMobilePadding(containerEl){
-    const w = (containerEl && containerEl.clientWidth) || window.innerWidth || 0;
-    return Math.max(0, Math.round(w * 0.15));
+  function calcMobilePadding(el){
+    const w = (el && el.clientWidth) || window.innerWidth || 0;
+    return Math.max(0, Math.round(w * 0.15)); // ~2.3 слайда при items:2
   }
-
-  // снапим активный слайд к центру
   function snapToCenter($owl, speed=0){
     const $act = $owl.find('.sbi-owl-item.active');
     if (!$act.length) return;
@@ -274,133 +270,120 @@
     $owl.trigger('to.owl.carousel', [idx, speed, true]);
   }
 
-  function attachAutofix($owl){
-    if ($owl.data('__ig_center_bound')) return;
-    $owl.data('__ig_center_bound', 1);
-
-    // плавный снап после смены/драга
-    let t=0;
-    const debounced = (spd=420)=>{ clearTimeout(t); t=setTimeout(()=>snapToCenter($owl, spd), 16); };
-
-    $owl.on('changed.owl.carousel',   ()=> debounced(420));
-    $owl.on('refreshed.owl.carousel', ()=> snapToCenter($owl, 0));
-    $owl.on('resized.owl.carousel',   ()=> snapToCenter($owl, 0));
-  }
-
-  function ensureCentered(feed){
+  // Основная настройка для одного фида
+  function applyMode(feed, {force=false}={}){
     const $ = jQuery;
     const $owl = $(feed);
     const inst = $owl.data('owl.carousel');
     if (!inst) return false;
 
-    // мягкие скорости (не трогаем, если уже заданы)
-    const smooth = {
-      smartSpeed:     inst.options.smartSpeed     ?? 450,
-      dragEndSpeed:   inst.options.dragEndSpeed   ?? 420,
-      autoplaySpeed:  inst.options.autoplaySpeed  ?? 450
-    };
+    // чтобы не крутить настройки в цикле
+    if ($owl.data('ig-centering-inprogress')) return false;
+    $owl.data('ig-centering-inprogress', 1);
 
-    // responsive: ≤600px — без center, 2 слайда + паддинги (видно ~2.3)
-    const resp = inst.options.responsive ? {...inst.options.responsive} : {};
-    resp[0]   = Object.assign({}, resp[0],   { center:false, items:2 });
-    resp[600] = Object.assign({}, resp[600], { center:true });
+    // плавные скорости (только если не заданы)
+    inst.options.smartSpeed    = inst.options.smartSpeed    ?? 450;
+    inst.options.dragEndSpeed  = inst.options.dragEndSpeed  ?? 420;
+    inst.options.autoplaySpeed = inst.options.autoplaySpeed ?? 450;
 
-    // применяем «мобильный паддинг» динамически
-    function applyMobilePadding(){
-      if (window.innerWidth <= 600) {
-        inst.options.stagePadding = calcMobilePadding(feed);
-      } else {
-        inst.options.stagePadding = inst.options.stagePadding || 0;
-      }
+    // мобильный режим / десктопный режим
+    const mobile = window.innerWidth <= 600;
+    const prevMode = $owl.data('ig-mode');
+    if (!force && prevMode === (mobile ? 'm' : 'd')) {
+      $owl.data('ig-centering-inprogress', 0);
+      return true; // ничего не меняем — режим не изменился
+    }
+
+    if (mobile) {
+      // мобила: без center, 2 слайда + паддинги для «~2.3»
+      inst.options.center = false;
+      inst.options.responsive = inst.options.responsive || {};
+      inst.options.responsive[0]   = Object.assign({}, inst.options.responsive[0],   { items: 2, center: false });
+      inst.options.responsive[600] = Object.assign({}, inst.options.responsive[600], { center: true });
+
+      inst.options.stagePadding = calcMobilePadding(feed);
+      $owl.trigger('refresh.owl.carousel'); // аккуратно, один refresh
+    } else {
+      // десктоп: центр включён, паддинги убираем
+      inst.options.center = true;
+      inst.options.stagePadding = 0;
       $owl.trigger('refresh.owl.carousel');
+      // снапнем к центру плавно
+      setTimeout(()=> snapToCenter($owl, 380), 30);
     }
 
-    // если center уже есть — просто обновим опции и распаддингуем
-    if (inst.options.center === true) {
-      Object.assign(inst.options, smooth);
-      inst.options.responsive = resp;
-      applyMobilePadding();
-      attachAutofix($owl);
-      snapToCenter($owl, 0);
-      return true;
-    }
+    // Подписки — ОДИН раз
+    if (!$owl.data('ig-bound')) {
+      $owl.data('ig-bound', 1);
 
-    // полный re-init через sbiOwlCarousel с сохранением остальных опций
-    try { $owl.sbiOwlCarousel('destroy'); } catch(e){}
-    try {
-      $owl.sbiOwlCarousel({
-        ...inst.options,
-        ...smooth,
-        center:true,
-        responsive: resp
+      // после смены/драга — плавный снап
+      let t=0;
+      $owl.on('changed.owl.carousel', ()=> {
+        clearTimeout(t);
+        t = setTimeout(()=> snapToCenter($owl, 380), 16);
       });
 
-      const inst2 = $owl.data('owl.carousel');
-      if (inst2){
-        // биндим ресайз для пересчёта паддингов
-        (function bindResize(){
-          let rid=0;
-          function update(){
-            cancelAnimationFrame(rid);
-            rid=requestAnimationFrame(()=>{
-              if (window.innerWidth <= 600) {
-                inst2.options.stagePadding = calcMobilePadding(feed);
-              } else {
-                inst2.options.stagePadding = inst2.options.stagePadding || 0;
-              }
-              $owl.trigger('refresh.owl.carousel');
-            });
-          }
-          window.addEventListener('resize', update);
-          update();
-        })();
+      // после refresh/resize — без анимации, чтобы не «мигало»
+      $owl.on('refreshed.owl.carousel resized.owl.carousel', ()=> snapToCenter($owl, 0));
+    }
 
-        attachAutofix($owl);
-        snapToCenter($owl, 0);
-      }
-      return true;
-    } catch(e){
-      warn('Reinit error', e);
-      return false;
+    $owl.data('ig-mode', mobile ? 'm' : 'd');
+    $owl.data('ig-centering-inprogress', 0);
+    return true;
+  }
+
+  async function setupOn(node){
+    try {
+      await waitFor(()=> window.jQuery && jQuery.fn && jQuery.fn.sbiOwlCarousel);
+    } catch(e){ warn('sbiOwlCarousel not ready'); return; }
+
+    const feeds = (node.querySelectorAll ? node.querySelectorAll('#sbi_images.sbi_carousel') : []);
+    if (!feeds.length) return;
+
+    for (const feed of feeds) {
+      try {
+        await waitFor(()=> feed.classList.contains('sbi-owl-loaded'), {timeout: 8000});
+      } catch(e){ /* ок, попробуем всё равно */ }
+      applyMode(feed, {force:true});
     }
   }
 
-  async function bootOnce(root=document){
-    try { await waitFor(()=> window.jQuery && jQuery.fn && jQuery.fn.sbiOwlCarousel); }
-    catch(e){ warn('sbiOwlCarousel timeout'); return; }
+  // ===== start =====
+  setupOn(document);
 
-    const nodes = root.querySelectorAll('#sbi_images.sbi_carousel');
-    if (!nodes.length) return;
-
-    for (const feed of nodes) {
-      try { await waitFor(()=> feed.classList.contains('sbi-owl-loaded'), {timeout:8000}); } catch(e){}
-      ensureCentered(feed);
-    }
-  }
-
-  // старт + отслеживание подгрузок апки
-  bootOnce(document);
+  // Наблюдаем только появление готового фида — без слежения за всеми классами
   const mo = new MutationObserver(muts=>{
     for (const m of muts){
-      if (m.type==='childList'){
-        m.addedNodes.forEach(node=>{
-          if (!(node instanceof Element)) return;
-          if (node.matches && node.matches('#sbi_images.sbi_carousel')) bootOnce(node.parentNode||document);
-          const inner = node.querySelector && node.querySelector('#sbi_images.sbi_carousel');
-          if (inner) bootOnce(node);
-        });
-      } else if (m.type==='attributes' && m.attributeName==='class'){
-        const el = m.target;
-        if (el.id==='sbi_images' && el.classList.contains('sbi_carousel') && el.classList.contains('sbi-owl-loaded')) {
-          ensureCentered(el);
+      if (m.type !== 'childList') continue;
+      m.addedNodes.forEach(node=>{
+        if (!(node instanceof Element)) return;
+        if (node.matches && node.matches('#sbi_images.sbi_carousel.sbi-owl-loaded')) {
+          setupOn(node.parentNode || document);
+        } else {
+          const inner = node.querySelector && node.querySelector('#sbi_images.sbi_carousel.sbi-owl-loaded');
+          if (inner) setupOn(node);
         }
-      }
+      });
     }
   });
-  mo.observe(document.body, {subtree:true, childList:true, attributes:true, attributeFilter:['class']});
-  log('MutationObserver запущен');
+  mo.observe(document.body, {subtree:true, childList:true});
+
+  // Переключаем режим только при реальном переходе через 600px (дебаунс)
+  (function bindResize(){
+    let raf = 0;
+    window.addEventListener('resize', ()=>{
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(()=>{
+        document.querySelectorAll('#sbi_images.sbi_carousel.sbi-owl-loaded')
+          .forEach(el => applyMode(el));
+      });
+    });
+  })();
+
+  log('ready');
 })();
 </script>
+
 
 <script>
 /**
