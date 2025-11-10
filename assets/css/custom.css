@@ -4773,6 +4773,13 @@ html.is-locked {
   letter-spacing: -0.4px;
   opacity: 0.8;
   max-width: 685px;
+
+}
+
+.contact-page-text-bold {
+  margin-top: 32px;
+  opacity: 1;
+  color: #000;
 }
 
 .contact-page-title {
@@ -5265,6 +5272,9 @@ form.wpcf7-form br {
   }
 }
 @media (max-width: 992px) {
+  .contact-page-text-bold {
+    margin-top: 16px;
+  }
   .careers-section.careers-section-top {
   margin-top: 80px;
 }

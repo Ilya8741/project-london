@@ -3694,6 +3694,27 @@
                             ]
                         },
                         {
+                            "key": "field_69121763b9415",
+                            "label": "Text after buttons",
+                            "name": "text_after_buttons",
+                            "aria-label": "",
+                            "type": "wysiwyg",
+                            "instructions": "",
+                            "required": 0,
+                            "conditional_logic": 0,
+                            "wrapper": {
+                                "width": "",
+                                "class": "",
+                                "id": ""
+                            },
+                            "default_value": "",
+                            "allow_in_bindings": 0,
+                            "tabs": "all",
+                            "toolbar": "full",
+                            "media_upload": 1,
+                            "delay": 0
+                        },
+                        {
                             "key": "field_68ed2036c4f2c",
                             "label": "Image",
                             "name": "image",
@@ -3973,5 +3994,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1761997509
+    "modified": 1762793417
 }

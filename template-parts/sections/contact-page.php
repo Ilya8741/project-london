@@ -4,7 +4,7 @@
             <h1 class="contact-page-title" data-aos="fade-right" data-aos-duration="600" data-aos-delay="100" data-aos-easing="ease-out">
                 <?php the_sub_field('title'); ?>
             </h1>
-            <div class="contact-page-text" data-aos="fade-left" data-aos-duration="600" data-aos-delay="100" data-aos-easing="ease-out">
+           <div class="contact-page-text" data-aos="fade-left" data-aos-duration="600" data-aos-delay="100" data-aos-easing="ease-out">
                 <?php the_sub_field('text'); ?>
             </div>
 
@@ -17,12 +17,11 @@
       $popup_title = get_sub_field('popup_title');
       $popup_text = get_sub_field('popup_text');
       $contact_form = get_sub_field('contact_form', false, false);
-      $button_link = get_sub_field('button_link'); // можно добавить ссылку в ACF, если нужно
+      $button_link = get_sub_field('button_link'); 
       $tpl_id = 'contact-modal-' . $i;
     ?>
 
       <?php if ($popup_title): ?>
-        <!-- Кнопка с модальным окном -->
         <button type="button" class="contact-button main-button" data-modal="#<?php echo esc_attr($tpl_id); ?>">
           <span><?php echo esc_html($button_text); ?></span>
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -61,7 +60,9 @@
     <?php endwhile; ?>
   </div>
 <?php endif; ?>
-
+   <div class="contact-page-text contact-page-text-bold" data-aos="fade-right" data-aos-duration="600" data-aos-delay="100" data-aos-easing="ease-out">
+                <?php the_sub_field('text_after_buttons'); ?>
+            </div>
 
             <div class="team-modal" aria-hidden="true">
                 <div class="team-modal__overlay" data-close></div>
