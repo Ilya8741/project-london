@@ -4775,6 +4775,16 @@ html.is-locked {
   max-width: 685px;
 
 }
+.script-section {
+  padding: 50px 0;
+
+}
+
+.script-section-wrapper {
+  max-width: 1440px;
+  padding: 0 20px;
+  margin: 0 auto;
+}
 
 .contact-page-text-bold {
   margin-top: 32px;
@@ -5272,6 +5282,16 @@ form.wpcf7-form br {
   }
 }
 @media (max-width: 992px) {
+  .script-section {
+  padding: 30px 0;
+
+}
+
+.script-section-wrapper {
+  max-width: 1440px;
+  padding: 0 24px;
+  margin: 0 auto;
+}
   .contact-page-text-bold {
     margin-top: 16px;
   }
